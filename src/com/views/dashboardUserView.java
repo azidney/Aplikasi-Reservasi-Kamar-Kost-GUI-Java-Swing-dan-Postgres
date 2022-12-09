@@ -6,9 +6,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class dashboardCustomerView extends cDashboardFrame {
+public class dashboardUserView extends cDashboardFrame {
 
-  private Integer idCustomer = null;
+  private Integer idUser = null;
   private Integer idSelected = null;
 
   // sidebar menu
@@ -35,7 +35,7 @@ public class dashboardCustomerView extends cDashboardFrame {
   private cTable tblDataHistoryPaket;
   private cScrollPane spDataHistoryPaket;
 
-  // akun customer components
+  // akun user components
   private cLabelInfo labelAkun = new cLabelInfo("Data Akun Saya", 25, 20);
   private cFormLabel labelNama = new cFormLabel("Nama", 25, 65, 360, false);
   private cTextField txtNama = new cTextField(25, 90, 360, false);
@@ -82,10 +82,10 @@ public class dashboardCustomerView extends cDashboardFrame {
     }
   }
 
-  public dashboardCustomerView(Integer id) {
-    super("Dashboard Customer");
-    idCustomer = id;
-    roleText.setText("Customer | Nama Customer");
+  public dashboardUserView(Integer id) {
+    super("Dashboard User");
+    idUser = id;
+    roleText.setText("User | Nama User");
     menuBeranda.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
@@ -120,7 +120,7 @@ public class dashboardCustomerView extends cDashboardFrame {
             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
             null, options, options[0]);
         if (confirm == 0) {
-          idCustomer = null;
+          idUser = null;
           idSelected = null;
           com.program.Controller.showLoginCustomer();
         }

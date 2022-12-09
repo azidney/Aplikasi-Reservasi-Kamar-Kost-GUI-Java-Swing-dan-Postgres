@@ -17,27 +17,27 @@ public class dashboardAdminView extends cDashboardFrame {
 
   // sidebar menu
   private cSidebarMenu menuBeranda = new cSidebarMenu("Beranda", 70);
-  private cSidebarMenu menuDataCustomer = new cSidebarMenu("Data Customer", 70 + 50);
+  private cSidebarMenu menuDataUser = new cSidebarMenu("Data User", 70 + 50);
   private cSidebarMenu menuDataPaket = new cSidebarMenu("Data Paket", 70 + 50 + 50);
   private cSidebarMenu menuLogout = new cSidebarMenu("Logout", 70 + 50 + 50 + 50);
 
   // beranda components
-  private cLabelInfo labelJmlDataMitraBeranda = new cLabelInfo("Jumlah Data Customer", 25, 20);
+  private cLabelInfo labelJmlDataMitraBeranda = new cLabelInfo("Jumlah Data User", 25, 20);
   private cBigFont valueJumlahDataUser = new cBigFont("0", 25, 60);
-  private cLabelInfo labelJmlDataCustomerBeranda = new cLabelInfo("Jumlah Data Kamar Aktif", 25, 150);
-  private cBigFont valueJmlDataCustomerBeranda = new cBigFont("0", 25, 190);
+  private cLabelInfo labelJmlDataUserBeranda = new cLabelInfo("Jumlah Data Kamar Aktif", 25, 150);
+  private cBigFont valueJmlDataUserBeranda = new cBigFont("0", 25, 190);
   private cLabelInfo labelJmlTransaksiPulsaBeranda = new cLabelInfo("Jumlah Data Kamar Tidak Aktif", 495, 20);
   private cBigFont valueJmlTransaksiPulsaBeranda = new cBigFont("0", 495, 60);
   private cLabelInfo labelJmlCalonMitraBeranda = new cLabelInfo("Jumlah Data Transaksi", 495, 150);
   private cBigFont valueJmlCalonMitraBeranda = new cBigFont("0", 495, 190);
 
-  // DataCustomer components
-  private cLabelInfo labelDataCustomer = new cLabelInfo("Data Customer Aktif", 25, 20);
-  private cFormLabel labelCariDataCustomer = new cFormLabel("Cari", 25, 75, 55, false);
-  private cTextField txtCariDataCustomer = new cTextField(83, 70, 350, false);
-  private cTable tblDataDataCustomer;
-  private cScrollPane spDataDataCustomer;
-  private cBlueButton btnHapusDataCustomer = new cBlueButton("Hapus", 25, 446, 110);
+  // Data User components
+  private cLabelInfo labelDataUser = new cLabelInfo("Data User Aktif", 25, 20);
+  private cFormLabel labelCariDataUser = new cFormLabel("Cari", 25, 75, 55, false);
+  private cTextField txtCariDataUser = new cTextField(83, 70, 350, false);
+  private cTable tblDataDataUser;
+  private cScrollPane spDataDataUser;
+  private cBlueButton btnHapusDataUser = new cBlueButton("Hapus", 25, 446, 110);
 
   // Data Paket components
   private cLabelInfo labelDataPaket = new cLabelInfo("Data Kamar", 25, 20);
@@ -98,9 +98,9 @@ public class dashboardAdminView extends cDashboardFrame {
       menuBeranda.setBackground(cColor.WHITE);
       menuBeranda.setSidebarNonAktif();
 
-      menuDataCustomer.setForeground(cColor.GRAY);
-      menuDataCustomer.setBackground(cColor.WHITE);
-      menuDataCustomer.setSidebarNonAktif();
+      menuDataUser.setForeground(cColor.GRAY);
+      menuDataUser.setBackground(cColor.WHITE);
+      menuDataUser.setSidebarNonAktif();
 
       menuDataPaket.setForeground(cColor.GRAY);
       menuDataPaket.setBackground(cColor.WHITE);
@@ -131,10 +131,10 @@ public class dashboardAdminView extends cDashboardFrame {
         initsBeranda();
       }
     });
-    menuDataCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+    menuDataUser.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
-        initsDataCustomer();
+        initsDataUser();
       }
     });
     menuDataPaket.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -153,7 +153,7 @@ public class dashboardAdminView extends cDashboardFrame {
 
     // add component default
     sidebar.add(menuBeranda);
-    sidebar.add(menuDataCustomer);
+    sidebar.add(menuDataUser);
     sidebar.add(menuDataPaket);
     sidebar.add(menuLogout);
 
@@ -173,8 +173,8 @@ public class dashboardAdminView extends cDashboardFrame {
 
     content.add(labelJmlDataMitraBeranda);
     content.add(valueJumlahDataUser);
-    content.add(labelJmlDataCustomerBeranda);
-    content.add(valueJmlDataCustomerBeranda);
+    content.add(labelJmlDataUserBeranda);
+    content.add(valueJmlDataUserBeranda);
     content.add(labelJmlTransaksiPulsaBeranda);
     content.add(valueJmlTransaksiPulsaBeranda);
     content.add(labelJmlCalonMitraBeranda);
@@ -182,26 +182,26 @@ public class dashboardAdminView extends cDashboardFrame {
     setVisible(true);
   }
 
-  private void initsDataCustomer() {
+  private void initsDataUser() {
     idSelected = null;
     resetSidebar();
-    menuDataCustomer.setBackground(cColor.GREEN);
-    menuDataCustomer.setForeground(cColor.WHITE);
+    menuDataUser.setBackground(cColor.GREEN);
+    menuDataUser.setForeground(cColor.WHITE);
     refreshContent();
-    menuDataCustomer.setSidebarAktif();
-    menuTitle.setText("Data Customer");
-    tblDataDataCustomer = new cTable(Model.getAllUser());
+    menuDataUser.setSidebarAktif();
+    menuTitle.setText("Data User");
+    tblDataDataUser = new cTable(Model.getAllUser());
 
-    tblDataDataCustomer.getColumnModel().getColumn(0).setMinWidth(100);
-    tblDataDataCustomer.getColumnModel().getColumn(0).setMaxWidth(100);
-    tblDataDataCustomer.getColumnModel().getColumn(0).setWidth(100);
+    tblDataDataUser.getColumnModel().getColumn(0).setMinWidth(100);
+    tblDataDataUser.getColumnModel().getColumn(0).setMaxWidth(100);
+    tblDataDataUser.getColumnModel().getColumn(0).setWidth(100);
 
-    spDataDataCustomer = new cScrollPane(tblDataDataCustomer, 25, 120, 725, 310); // width = 925
-    content.add(labelDataCustomer);
-    content.add(labelCariDataCustomer);
-    content.add(txtCariDataCustomer);
-    content.add(spDataDataCustomer);
-    content.add(btnHapusDataCustomer);
+    spDataDataUser = new cScrollPane(tblDataDataUser, 25, 120, 725, 310); // width = 925
+    content.add(labelDataUser);
+    content.add(labelCariDataUser);
+    content.add(txtCariDataUser);
+    content.add(spDataDataUser);
+    content.add(btnHapusDataUser);
     setVisible(true);
   }
 

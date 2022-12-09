@@ -24,8 +24,8 @@ public class Controller {
     frameLoginAndRegister.setVisible(true);
   }
 
-  public static void showDashboardCustomer(Integer id) {
-    dashboardCustomerView dashboardCustomer = new dashboardCustomerView(id);
+  public static void showDashboardUser(Integer id) {
+    dashboardUserView dashboardCustomer = new dashboardUserView(id);
     dashboardCustomer.setVisible(true);
   }
 
