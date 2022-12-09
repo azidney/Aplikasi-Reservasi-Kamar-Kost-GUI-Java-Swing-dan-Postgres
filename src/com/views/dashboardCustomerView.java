@@ -13,29 +13,24 @@ public class dashboardCustomerView extends cDashboardFrame {
 
   // sidebar menu
   private cSidebarMenu menuBeranda = new cSidebarMenu("Beranda", 70);
-  private cSidebarMenu menuBeliPaket = new cSidebarMenu("Beli Paket", 70 + 50);
-  private cSidebarMenu menuHistoryBeliPaket = new cSidebarMenu("History Beli Paket", 70 + 50 + 50);
+  private cSidebarMenu menuBeliPaket = new cSidebarMenu("Sewa Kamar", 70 + 50);
+  private cSidebarMenu menuHistoryBeliPaket = new cSidebarMenu("History Sewa Kamar", 70 + 50 + 50);
   private cSidebarMenu menuAkun = new cSidebarMenu("Akun", 70 + 50 + 50 + 50);
   private cSidebarMenu menuLogout = new cSidebarMenu("Logout", 70 + 50 + 50 + 50 + 50);
 
   // components of beranda
-  private cLabelInfo labelSisaPulsaBeranda = new cLabelInfo("Sisa Pulsa Anda", 25, 20);
-  private cBigFont valueSisaPulsaBeranda = new cBigFont("55.000", 25, 60);
-  private cLabelInfo labelSisaKuotaBeranda = new cLabelInfo("Sisa Kuota Anda", 25, 150);
-  private cBigFont valueSisaKuotaBeranda = new cBigFont("11GB", 25, 190);
+  private cLabelInfo labelSisaPulsaBeranda = new cLabelInfo("Total Kamar yang Anda Sewa", 25, 20);
+  private cBigFont valueSisaPulsaBeranda = new cBigFont("2", 25, 60);
 
   // beli paket components
-  private cLabelInfo labelSisaKuotaBeliPaket = new cLabelInfo("Sisa Kuota Anda", 25, 20);
-  private cBigFont valueSisaKuotaBeliPaket = new cBigFont("11GB", 25, 60);
-  private cLabelInfo labelPilihanBeliPaket = new cLabelInfo("Pilihan Beli Paket Kuota", 25, 150);
+  private cLabelInfo labelPilihanBeliPaket = new cLabelInfo("Pilihan Kamar", 25, 20);
   private DefaultTableModel dmPaket;
   private cTable dataPaket;
   private cScrollPane spDataPaket;
-  private cBlueButton btnBeliPaket = new cBlueButton("Beli Paket", 25, 390, 155);
-  private cLabelInfo labelDeskripsiPaket = new cLabelInfo("DeskripsiPaket", 473, 190);
-  private cTextarea valueDeskripsiPaket = new cTextarea("", 473, 231, false);
+  private cBlueButton btnBeliPaket = new cBlueButton("Sewa Kamar", 25, 290, 155);
+
   // history beli Paket components
-  private cLabelInfo labelHistoryPaket = new cLabelInfo("Semua Pembelian Paket Saya", 25, 20);
+  private cLabelInfo labelHistoryPaket = new cLabelInfo("History", 25, 20);
   private DefaultTableModel dmHistoryPaket;
   private cTable tblDataHistoryPaket;
   private cScrollPane spDataHistoryPaket;
@@ -144,26 +139,24 @@ public class dashboardCustomerView extends cDashboardFrame {
   private void initsBeranda() {
     idSelected = null;
     resetSidebar();
-    menuBeranda.setBackground(cColor.BLUE);
+    menuBeranda.setBackground(cColor.GREEN);
     menuBeranda.setForeground(cColor.WHITE);
     refreshContent();
     menuBeranda.setSidebarAktif();
     menuTitle.setText("Beranda");
     content.add(labelSisaPulsaBeranda);
     content.add(valueSisaPulsaBeranda);
-    content.add(labelSisaKuotaBeranda);
-    content.add(valueSisaKuotaBeranda);
     setVisible(true);
   }
 
   private void initsBeliPaket() {
     idSelected = null;
     resetSidebar();
-    menuBeliPaket.setBackground(cColor.BLUE);
+    menuBeliPaket.setBackground(cColor.GREEN);
     menuBeliPaket.setForeground(cColor.WHITE);
     refreshContent();
     menuBeliPaket.setSidebarAktif();
-    menuTitle.setText("Beli Paket");
+    menuTitle.setText("Sewa Kamar");
     String[] dataUserHeader = { "Nama", "Kuota", "Harga" };
     String[][] dataUser = {
         { "Row1 Col1", "Row1 Col2", "Row1 Col3" },
@@ -175,23 +168,18 @@ public class dashboardCustomerView extends cDashboardFrame {
     };
     dmPaket = new DefaultTableModel(dataUser, dataUserHeader);
     dataPaket = new cTable(dmPaket);
-    spDataPaket = new cScrollPane(dataPaket, 25, 190, 428, 190);
-    String textDeskripsiPaket = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam totam doloribus velit ipsa! Beatae tempore quod laborum porro optio aliquam voluptate commodi assumenda explicabo debitis accusamus obcaecati, quo nostrum esse!";
-    valueDeskripsiPaket.setText(textDeskripsiPaket);
-    content.add(labelSisaKuotaBeliPaket);
-    content.add(valueSisaKuotaBeliPaket);
+    spDataPaket = new cScrollPane(dataPaket, 25, 70, 925, 190);
+
     content.add(labelPilihanBeliPaket);
     content.add(spDataPaket);
     content.add(btnBeliPaket);
-    content.add(labelDeskripsiPaket);
-    content.add(valueDeskripsiPaket);
     setVisible(true);
   }
 
   private void initsHistoryBeliPaket() {
     idSelected = null;
     resetSidebar();
-    menuHistoryBeliPaket.setBackground(cColor.BLUE);
+    menuHistoryBeliPaket.setBackground(cColor.GREEN);
     menuHistoryBeliPaket.setForeground(cColor.WHITE);
     refreshContent();
     menuHistoryBeliPaket.setSidebarAktif();
@@ -220,7 +208,7 @@ public class dashboardCustomerView extends cDashboardFrame {
   private void initsAkun() {
     idSelected = null;
     resetSidebar();
-    menuAkun.setBackground(cColor.BLUE);
+    menuAkun.setBackground(cColor.GREEN);
     menuAkun.setForeground(cColor.WHITE);
     refreshContent();
     menuAkun.setSidebarAktif();

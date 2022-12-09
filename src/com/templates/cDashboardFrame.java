@@ -1,4 +1,5 @@
 package com.templates;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -8,23 +9,21 @@ import com.partials.cLinkKeluar;
 import com.partials.cColor;
 import com.partials.cFonts;
 
-
-public abstract class cDashboardFrame extends JFrame{
+public abstract class cDashboardFrame extends JFrame {
 
   public JPanel sidebar = new JPanel();
   public JPanel header = new JPanel();
   public JPanel main = new JPanel();
   public JPanel content = new JPanel();
 
-  private JLabel appText = new JLabel("PulsaKu");
+  private JLabel appText = new JLabel("Kosanku");
   public JLabel roleText = new JLabel("Role | Nama User");
   public JLabel menuTitle = new JLabel("Menu Title");
-  public JLabel copyrightText = new JLabel("Copyright 2021. Yunus Febriansyah.");
+  public JLabel copyrightText = new JLabel("Copyright 2022. Muhamad Yazid Imani.");
 
   private cLinkKeluar exitLink = new cLinkKeluar(930);
 
-  public cDashboardFrame()
-  {
+  public cDashboardFrame() {
     super();
     setSize(1280, 720);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,7 +35,7 @@ public abstract class cDashboardFrame extends JFrame{
     sidebar.setBounds(0, 0, 230, 720);
     sidebar.setLayout(null);
 
-    header.setBackground(cColor.BLUE);
+    header.setBackground(cColor.GREEN);
     header.setBounds(230, 0, 1050, 70);
     header.setLayout(null);
 
@@ -52,7 +51,7 @@ public abstract class cDashboardFrame extends JFrame{
     appText.setBounds(0, 0, 230, 70);
     appText.setHorizontalAlignment(JLabel.CENTER);
     appText.setVerticalAlignment(JLabel.CENTER);
-    appText.setForeground(cColor.BLUE);
+    appText.setForeground(cColor.GREEN);
 
     roleText.setFont(cFonts.ROLE_FONT);
     roleText.setBounds(30, 0, 400, 70);
@@ -69,7 +68,7 @@ public abstract class cDashboardFrame extends JFrame{
     copyrightText.setHorizontalAlignment(JLabel.CENTER);
     copyrightText.setVerticalAlignment(JLabel.CENTER);
     copyrightText.setForeground(cColor.GRAY);
-    
+
     header.add(exitLink);
     header.add(roleText);
     sidebar.add(appText);
@@ -81,10 +80,9 @@ public abstract class cDashboardFrame extends JFrame{
     add(main);
   }
 
-  public cDashboardFrame(String title)
-  {
+  public cDashboardFrame(String title) {
     this();
     setTitle(title);
   }
-  
+
 }

@@ -37,7 +37,7 @@ public class dashboardAdminView extends cDashboardFrame {
   private DefaultTableModel dmDataCustomer;
   private cTable tblDataDataCustomer;
   private cScrollPane spDataDataCustomer;
-  private cRedButton btnHapusDataCustomer = new cRedButton("Hapus", 25, 446, 110);
+  private cBlueButton btnHapusDataCustomer = new cRedButton("Hapus", 25, 446, 110);
 
   // Data Paket components
   private cLabelInfo labelDataPaket = new cLabelInfo("Data Kamar", 25, 20);
@@ -51,7 +51,7 @@ public class dashboardAdminView extends cDashboardFrame {
   private DefaultTableModel dmDataPaket;
   private cTable tblDataDataPaket;
   private cScrollPane spDataDataPaket;
-  private cGreenButton btnUbahDataPaket = new cGreenButton("Ubah", 25, 410, 92);
+  private cBlueButton btnUbahDataPaket = new cBlueButton("Ubah", 25, 410, 92);
 
   // TambahDataPaket components
   private cLabelInfo labelTambahDataPaket = new cLabelInfo("Isi form data kamar dengan lengkap", 25, 20);
@@ -87,7 +87,7 @@ public class dashboardAdminView extends cDashboardFrame {
       false);
   private cCheckbox chAktifUbahDataPaket = new cCheckbox("Aktifkan", "1", 25, 316, 100);
   private cBlueButton btnUbahPaketUbahDataPaket = new cBlueButton("Ubah", 25, 348, 110);
-  private cRedButton btnBatalUbahDataPaket = new cRedButton("Batal", 155, 348, 110);
+  private cBlueButton btnBatalUbahDataPaket = new cRedButton("Batal", 155, 348, 110);
 
   // method resetSidebar
   private void resetSidebar() {
@@ -163,7 +163,7 @@ public class dashboardAdminView extends cDashboardFrame {
   private void initsBeranda() {
     idSelected = null;
     resetSidebar();
-    menuBeranda.setBackground(cColor.BLUE);
+    menuBeranda.setBackground(cColor.GREEN);
     menuBeranda.setForeground(cColor.WHITE);
     refreshContent();
     menuBeranda.setSidebarAktif();
@@ -182,7 +182,7 @@ public class dashboardAdminView extends cDashboardFrame {
   private void initsDataCustomer() {
     idSelected = null;
     resetSidebar();
-    menuDataCustomer.setBackground(cColor.BLUE);
+    menuDataCustomer.setBackground(cColor.GREEN);
     menuDataCustomer.setForeground(cColor.WHITE);
     refreshContent();
     menuDataCustomer.setSidebarAktif();
@@ -210,7 +210,7 @@ public class dashboardAdminView extends cDashboardFrame {
   private void initsDataPaket() {
     idSelected = null;
     resetSidebar();
-    menuDataPaket.setBackground(cColor.BLUE);
+    menuDataPaket.setBackground(cColor.GREEN);
     menuDataPaket.setForeground(cColor.WHITE);
     refreshContent();
     menuDataPaket.setSidebarAktif();
@@ -261,7 +261,7 @@ public class dashboardAdminView extends cDashboardFrame {
     // setVisible(false);
     idSelected = null;
     resetSidebar();
-    menuDataPaket.setBackground(cColor.BLUE);
+    menuDataPaket.setBackground(cColor.GREEN);
     menuDataPaket.setForeground(cColor.WHITE);
     refreshContent();
     menuDataPaket.setSidebarAktif();
@@ -292,7 +292,7 @@ public class dashboardAdminView extends cDashboardFrame {
     // setVisible(false);
     idSelected = null;
     resetSidebar();
-    menuDataPaket.setBackground(cColor.BLUE);
+    menuDataPaket.setBackground(cColor.GREEN);
     menuDataPaket.setForeground(cColor.WHITE);
     refreshContent();
     menuDataPaket.setSidebarAktif();
