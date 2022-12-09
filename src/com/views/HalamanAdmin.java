@@ -10,6 +10,27 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionListener;
 
+class Filter {
+  static String filter = "semua";
+  static String keyword = "";
+
+  static DefaultTableModel search() {
+    DefaultTableModel tm = new DefaultTableModel();
+
+    if (filter.equalsIgnoreCase("semua")) {
+      // memanggil dan menggantikan tm dengan return dari getSearchAllPaket
+      tm = Koneksi.getSearchAllKamar(keyword);
+    } else if (filter.equalsIgnoreCase("Aktif")) {
+      tm = Koneksi.getSearchAllKamarAktif(keyword);
+    } else if (filter.equalsIgnoreCase("Tidak Aktif")) {
+      tm = Koneksi.getSearchAllKamarTidakAktif(keyword);
+    }
+
+    return tm;
+  }
+
+}
+
 public class HalamanAdmin extends TemplateHalamanAdmin {
 
   private boolean statusLogin = false;
@@ -25,14 +46,14 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
   private cLabelInfo labelJmlDataMitraBeranda = new cLabelInfo("Jumlah Data User", 25, 20);
   private cBigFont valueJumlahDataUser = new cBigFont("0", 25, 60);
   private cLabelInfo labelJmlDataUserBeranda = new cLabelInfo("Jumlah Data Kamar Aktif", 25, 150);
-  private cBigFont valueJmlDataUserBeranda = new cBigFont("0", 25, 190);
+  private cBigFont valueJmlKamarAktif = new cBigFont("0", 25, 190);
   private cLabelInfo labelJmlTransaksiPulsaBeranda = new cLabelInfo("Jumlah Data Kamar Tidak Aktif", 495, 20);
-  private cBigFont valueJmlTransaksiPulsaBeranda = new cBigFont("0", 495, 60);
+  private cBigFont valueJmlKamarTidakAktif = new cBigFont("0", 495, 60);
   private cLabelInfo labelJmlCalonMitraBeranda = new cLabelInfo("Jumlah Data Transaksi", 495, 150);
   private cBigFont valueJmlCalonMitraBeranda = new cBigFont("0", 495, 190);
 
   // Data User components
-  private cLabelInfo labelDataUser = new cLabelInfo("Data User Aktif", 25, 20);
+  private cLabelInfo labelDataUser = new cLabelInfo("Berikut adalah data user", 25, 20);
   private cFormLabel labelCariDataUser = new cFormLabel("Cari", 25, 75, 55, false);
   private cTextField txtCariDataUser = new cTextField(83, 70, 350, false);
   private cTable tblDataDataUser;
@@ -40,15 +61,13 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
   private cBlueButton btnHapusDataUser = new cBlueButton("Hapus", 25, 446, 110);
 
   // Data Kamar components
-  private cLabelInfo labelDataKamar = new cLabelInfo("Data Kamar", 25, 20);
+  private cLabelInfo labelDataKamar = new cLabelInfo("Berikut adalah data kamar", 25, 20);
   private cFormLabel labelCariDatakamar = new cFormLabel("Cari", 25, 75, 55, false);
   private cTextField txtCariDataKamar = new cTextField(83, 70, 317, false);
   private cBlueButton btnTambahDataKamar = new cBlueButton("Tambah Kamar", 418, 70, 162);
   private cRadioButton rdSemuaDataKamar = new cRadioButton("Semua", "all", 25, 115, 97);
   private cRadioButton rdAktifDataKamar = new cRadioButton("Aktif", "active", 132, 115, 72);
   private cRadioButton rdTidakAktifDataKamar = new cRadioButton("Tidak Aktif", "nonactive", 214, 115, 112);
-  private ButtonGroup groupActionDatakamar = new ButtonGroup();
-  private DefaultTableModel dmDataKamar;
   private cTable tblDataDataKamar;
   private cScrollPane spDataDataKamar;
   private cBlueButton btnUbahDataKamar = new cBlueButton("Ubah", 25, 410, 92);
@@ -170,13 +189,15 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     menuTitle.setText("Beranda");
 
     valueJumlahDataUser.setText(String.valueOf(Koneksi.getCountAllUser()));
+    valueJmlKamarAktif.setText(String.valueOf(Koneksi.getCountAllKamarAktif()));
+    valueJmlKamarTidakAktif.setText(String.valueOf(Koneksi.getCountAllKamarTidakAktif()));
 
     content.add(labelJmlDataMitraBeranda);
     content.add(valueJumlahDataUser);
     content.add(labelJmlDataUserBeranda);
-    content.add(valueJmlDataUserBeranda);
+    content.add(valueJmlKamarAktif);
     content.add(labelJmlTransaksiPulsaBeranda);
-    content.add(valueJmlTransaksiPulsaBeranda);
+    content.add(valueJmlKamarTidakAktif);
     content.add(labelJmlCalonMitraBeranda);
     content.add(valueJmlCalonMitraBeranda);
     setVisible(true);
@@ -197,6 +218,19 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     tblDataDataUser.getColumnModel().getColumn(0).setWidth(100);
 
     spDataDataUser = new cScrollPane(tblDataDataUser, 25, 120, 725, 310); // width = 925
+
+    // cari user
+    txtCariDataUser.addActionListener(new java.awt.event.ActionListener() {
+      @Override
+      public void actionPerformed(java.awt.event.ActionEvent ae) {
+        String keyword = txtCariDataUser.getText();
+        tblDataDataUser.setModel(Koneksi.getSearchUser(keyword));
+        tblDataDataUser.getColumnModel().getColumn(0).setMinWidth(0);
+        tblDataDataUser.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblDataDataUser.getColumnModel().getColumn(0).setWidth(0);
+      }
+    });
+
     content.add(labelDataUser);
     content.add(labelCariDataUser);
     content.add(txtCariDataUser);
@@ -213,21 +247,69 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     refreshContent();
     menuDataKamar.setSidebarAktif();
     menuTitle.setText("Data Kamar");
-    String[] dataUserHeader = { "Header 1", "Header 2", "Header 3" };
-    String[][] dataUser = {
-        { "Row1 Col1", "Row1 Col2", "Row1 Col3" },
-        { "Row2 Col1", "Row2 Col2", "Row2 Col3" },
-        { "Row3 Col1", "Row3 Col2", "Row3 Col3" },
-        { "Row4 Col1", "Row4 Col2", "Row4 Col3" },
-        { "Row5 Col1", "Row5 Col2", "Row5 Col3" }
-    };
-    dmDataKamar = new DefaultTableModel(dataUser, dataUserHeader);
-    tblDataDataKamar = new cTable(dmDataKamar);
+
+    tblDataDataKamar = new cTable(Koneksi.getAllKamar());
+    tblDataDataKamar.getColumnModel().getColumn(0).setMinWidth(0);
+    tblDataDataKamar.getColumnModel().getColumn(0).setMaxWidth(0);
+    tblDataDataKamar.getColumnModel().getColumn(0).setWidth(0);
+
     spDataDataKamar = new cScrollPane(tblDataDataKamar, 25, 145, 925, 250);
+    // cari kamar
+    txtCariDataKamar.addActionListener(new java.awt.event.ActionListener() {
+      @Override
+      public void actionPerformed(java.awt.event.ActionEvent ae) {
+        Filter.keyword = txtCariDataKamar.getText();
+        tblDataDataKamar.setModel(Filter.search());
+        tblDataDataKamar.getColumnModel().getColumn(0).setMinWidth(0);
+        tblDataDataKamar.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblDataDataKamar.getColumnModel().getColumn(0).setWidth(0);
+      }
+    });
+    ButtonGroup groupButtonRadio = new ButtonGroup();
+    groupButtonRadio.add(rdSemuaDataKamar);
+    groupButtonRadio.add(rdAktifDataKamar);
+    groupButtonRadio.add(rdTidakAktifDataKamar);
     rdSemuaDataKamar.setSelected(true);
-    groupActionDatakamar.add(rdSemuaDataKamar);
-    groupActionDatakamar.add(rdAktifDataKamar);
-    groupActionDatakamar.add(rdTidakAktifDataKamar);
+
+    rdSemuaDataKamar.addMouseListener(new java.awt.event.MouseAdapter() {
+      @Override
+      public void mouseClicked(java.awt.event.MouseEvent me) {
+        Filter.filter = "semua";
+
+        tblDataDataKamar.setModel(Koneksi.getAllKamar());
+        tblDataDataKamar.getColumnModel().getColumn(0).setMinWidth(0);
+        tblDataDataKamar.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblDataDataKamar.getColumnModel().getColumn(0).setWidth(0);
+
+      }
+    });
+
+    rdAktifDataKamar.addMouseListener(new java.awt.event.MouseAdapter() {
+      @Override
+
+      public void mouseClicked(java.awt.event.MouseEvent me) {
+        Filter.filter = "Aktif";
+
+        tblDataDataKamar.setModel(Koneksi.getAllKamarAktif());
+        tblDataDataKamar.getColumnModel().getColumn(0).setMinWidth(0);
+        tblDataDataKamar.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblDataDataKamar.getColumnModel().getColumn(0).setWidth(0);
+
+      }
+    });
+
+    rdTidakAktifDataKamar.addMouseListener(new java.awt.event.MouseAdapter() {
+      @Override
+
+      public void mouseClicked(java.awt.event.MouseEvent me) {
+        Filter.filter = "Tidak Aktif";
+        tblDataDataKamar.setModel(Koneksi.getAllKamarTidakAktif());
+        tblDataDataKamar.getColumnModel().getColumn(0).setMinWidth(0);
+        tblDataDataKamar.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblDataDataKamar.getColumnModel().getColumn(0).setWidth(0);
+
+      }
+    });
 
     btnTambahDataKamar.addActionListener(new ActionListener() {
       @Override

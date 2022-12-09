@@ -28,7 +28,7 @@ public class Koneksi {
         }
     }
 
-    // mitra static function
+    // user static function
     public static DefaultTableModel getAllUser() {
         connection();
 
@@ -65,6 +65,88 @@ public class Koneksi {
 
     }
 
+    // function ngambil semua data kamar
+    public static DefaultTableModel getAllKamar() {
+        connection();
+
+        String[] dataHeader = { "id_kamar", "nomor", "tipe", "harga", "status" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT * FROM tbl_kamar";
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_kamar"), resultData.getString("nomor"),
+                        resultData.getString("tipe"), resultData.getString("harga"), resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
+    }
+
+    // function ngambil semua data kamar yang aktif
+    public static DefaultTableModel getAllKamarAktif() {
+        connection();
+
+        String[] dataHeader = { "id_kamar", "nomor", "tipe", "harga", "status" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT * FROM tbl_kamar WHERE status = 'Aktif'";
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_kamar"), resultData.getString("nomor"),
+                        resultData.getString("tipe"), resultData.getString("harga"), resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
+    }
+
+    // function ngambil semua data kamar yang tidak aktif
+    public static DefaultTableModel getAllKamarTidakAktif() {
+        connection();
+
+        String[] dataHeader = { "id_kamar", "nomor", "tipe", "harga", "status" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT * FROM tbl_kamar WHERE status = 'Tidak Aktif'";
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_kamar"), resultData.getString("nomor"),
+                        resultData.getString("tipe"), resultData.getString("harga"), resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
+    }
+
+    // function hitung semua user
     public static int getCountAllUser() {
         connection();
         int count = 0;
@@ -92,5 +174,152 @@ public class Koneksi {
             e.printStackTrace();
         }
         return count;
+    }
+
+    public static int getCountAllKamarAktif() {
+        connection();
+        int count = 0;
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT COUNT(*) FROM tbl_kamar WHERE status = 'Aktif'";
+            ResultSet resultData = statement.executeQuery(query);
+            resultData.next();
+            count = resultData.getInt(1);
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public static int getCountAllKamarTidakAktif() {
+        connection();
+        int count = 0;
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT COUNT(*) FROM tbl_kamar WHERE status = 'Tidak Aktif'";
+            ResultSet resultData = statement.executeQuery(query);
+            resultData.next();
+            count = resultData.getInt(1);
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    // buat nyari data user
+    public static DefaultTableModel getSearchUser(String keyword) {
+        connection();
+
+        String[] dataHeader = { "id_user", "Nama User", "Email User", "Alamat User", "No Handphone" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT * FROM tbl_user WHERE nama LIKE '%" + keyword + "%' OR email LIKE '%" + keyword
+                    + "%'";
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_user"), resultData.getString("nama"),
+                        resultData.getString("email"), resultData.getString("alamat"), resultData.getString("no_hp") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
+    }
+
+    public static DefaultTableModel getSearchAllKamar(String keyword) {
+        connection();
+
+        String[] dataHeader = { "id_kamar", "nomor", "tipe", "harga", "status" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT * FROM tbl_kamar WHERE tipe LIKE '%" + keyword + "%' OR nomor LIKE '%" + keyword
+                    + "%'";
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_kamar"), resultData.getString("nomor"),
+                        resultData.getString("tipe"), resultData.getString("harga"), resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
+    }
+
+    public static DefaultTableModel getSearchAllKamarAktif(String keyword) {
+        connection();
+
+        String[] dataHeader = { "id_kamar", "nomor", "tipe", "harga", "status" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT * FROM tbl_kamar WHERE tipe LIKE '%" + keyword + "%' OR nomor LIKE '%" + keyword
+                    + "%' AND status = 'Aktif'";
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_kamar"), resultData.getString("nomor"),
+                        resultData.getString("tipe"), resultData.getString("harga"), resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
+    }
+
+    public static DefaultTableModel getSearchAllKamarTidakAktif(String keyword) {
+        connection();
+
+        String[] dataHeader = { "id_kamar", "nomor", "tipe", "harga", "status" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT * FROM tbl_kamar WHERE tipe LIKE '%" + keyword + "%' OR nomor LIKE '%" + keyword
+                    + "%' AND status = 'Tidak Aktif'";
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_kamar"), resultData.getString("nomor"),
+                        resultData.getString("tipe"), resultData.getString("harga"), resultData.getString("status") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
     }
 }
