@@ -28,11 +28,11 @@ public class Koneksi {
         }
     }
 
-    // user static function
+    // function ngambil semua data kamar dan user
     public static DefaultTableModel getAllUser() {
         connection();
 
-        String[] dataHeader = { "id_user", "Nama User", "Email User", "Alamat User", "No Handphone" };
+        String[] dataHeader = { "id", "Nama User", "Email User", "Alamat User", "No Handphone" };
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
 
         try {
@@ -65,7 +65,6 @@ public class Koneksi {
 
     }
 
-    // function ngambil semua data kamar
     public static DefaultTableModel getAllKamar() {
         connection();
 
@@ -146,7 +145,7 @@ public class Koneksi {
 
     }
 
-    // function hitung semua user
+    // function hitung semua user dan kamar
     public static int getCountAllUser() {
         connection();
         int count = 0;
@@ -214,7 +213,7 @@ public class Koneksi {
         return count;
     }
 
-    // buat nyari data user
+    // buat nyari data user dan kamar
     public static DefaultTableModel getSearchUser(String keyword) {
         connection();
 

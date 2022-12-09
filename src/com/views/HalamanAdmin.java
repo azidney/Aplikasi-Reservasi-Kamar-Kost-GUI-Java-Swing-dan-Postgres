@@ -225,9 +225,9 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
       public void actionPerformed(java.awt.event.ActionEvent ae) {
         String keyword = txtCariDataUser.getText();
         tblDataDataUser.setModel(Koneksi.getSearchUser(keyword));
-        tblDataDataUser.getColumnModel().getColumn(0).setMinWidth(0);
-        tblDataDataUser.getColumnModel().getColumn(0).setMaxWidth(0);
-        tblDataDataUser.getColumnModel().getColumn(0).setWidth(0);
+        tblDataDataUser.getColumnModel().getColumn(0).setMinWidth(100);
+        tblDataDataUser.getColumnModel().getColumn(0).setMaxWidth(100);
+        tblDataDataUser.getColumnModel().getColumn(0).setWidth(100);
       }
     });
 
