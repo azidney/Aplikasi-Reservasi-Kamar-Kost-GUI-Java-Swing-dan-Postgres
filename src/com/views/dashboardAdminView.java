@@ -37,7 +37,7 @@ public class dashboardAdminView extends cDashboardFrame {
   private DefaultTableModel dmDataCustomer;
   private cTable tblDataDataCustomer;
   private cScrollPane spDataDataCustomer;
-  private cBlueButton btnHapusDataCustomer = new cRedButton("Hapus", 25, 446, 110);
+  private cBlueButton btnHapusDataCustomer = new cBlueButton("Hapus", 25, 446, 110);
 
   // Data Paket components
   private cLabelInfo labelDataPaket = new cLabelInfo("Data Kamar", 25, 20);
