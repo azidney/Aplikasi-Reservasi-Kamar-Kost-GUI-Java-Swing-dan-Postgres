@@ -3,6 +3,7 @@
   "java.project.outputPath": "bin",
   "java.project.referencedLibraries": [
     "lib/**/*.jar",
-    "c:\\Program Files\\mysql-connector-java-8.0.25\\mysql-connector-java-8.0.25.jar"
+    "c:\\Program Files\\mysql-connector-java-8.0.25\\mysql-connector-java-8.0.25.jar",
+    "c:\\Users\\USER\\Downloads\\postgresql-42.5.1.jar"
   ]
 }
