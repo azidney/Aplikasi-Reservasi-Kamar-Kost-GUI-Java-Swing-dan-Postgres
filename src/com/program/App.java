@@ -7,7 +7,7 @@ public class App {
     Controller.showDashboardAdmin(true);
     // Controller.showDashboardCustomer(1);
     // Controller.showLoginAdmin();
-    // Model.connection(); // kalo di public
+    // Model.connection(); // kalo di publi
   }
 
 }
