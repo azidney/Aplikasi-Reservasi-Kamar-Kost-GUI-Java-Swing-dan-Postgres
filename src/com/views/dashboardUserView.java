@@ -1,42 +1,42 @@
 package com.views;
 
-import com.templates.cDashboardFrame;
+import com.templates.HalamanUser;
 import com.partials.*;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class dashboardUserView extends cDashboardFrame {
+public class dashboardUserView extends HalamanUser {
 
   private Integer idUser = null;
   private Integer idSelected = null;
 
   // sidebar menu
   private cSidebarMenu menuBeranda = new cSidebarMenu("Beranda", 70);
-  private cSidebarMenu menuBeliPaket = new cSidebarMenu("Sewa Kamar", 70 + 50);
-  private cSidebarMenu menuHistoryBeliPaket = new cSidebarMenu("History Sewa Kamar", 70 + 50 + 50);
+  private cSidebarMenu menuBeliPaket = new cSidebarMenu("Reservasi", 70 + 50);
+  private cSidebarMenu menuHistoryBeliPaket = new cSidebarMenu("History", 70 + 50 + 50);
   private cSidebarMenu menuAkun = new cSidebarMenu("Akun", 70 + 50 + 50 + 50);
   private cSidebarMenu menuLogout = new cSidebarMenu("Logout", 70 + 50 + 50 + 50 + 50);
 
   // components of beranda
-  private cLabelInfo labelSisaPulsaBeranda = new cLabelInfo("Total Kamar yang Anda Sewa", 25, 20);
-  private cBigFont valueSisaPulsaBeranda = new cBigFont("2", 25, 60);
+  private cLabelUser labelSisaPulsaBeranda = new cLabelUser("Total Kamar yang Anda Reservasi", 25, 20);
+  private cBigFontUser valueSisaPulsaBeranda = new cBigFontUser("2", 25, 60);
 
   // beli paket components
-  private cLabelInfo labelPilihanBeliPaket = new cLabelInfo("Pilihan Kamar", 25, 20);
+  private cLabelUser labelPilihanBeliPaket = new cLabelUser("Silahkan Pilihan Kamar", 25, 20);
   private DefaultTableModel dmPaket;
   private cTable dataPaket;
   private cScrollPane spDataPaket;
   private cBlueButton btnBeliPaket = new cBlueButton("Sewa Kamar", 25, 290, 155);
 
   // history beli Paket components
-  private cLabelInfo labelHistoryPaket = new cLabelInfo("History", 25, 20);
+  private cLabelUser labelHistoryPaket = new cLabelUser("Data Transaksi Anda", 25, 20);
   private DefaultTableModel dmHistoryPaket;
   private cTable tblDataHistoryPaket;
   private cScrollPane spDataHistoryPaket;
 
   // akun user components
-  private cLabelInfo labelAkun = new cLabelInfo("Data Akun Saya", 25, 20);
+  private cLabelUser labelAkun = new cLabelUser("Data Akun Saya", 25, 20);
   private cFormLabel labelNama = new cFormLabel("Nama", 25, 65, 360, false);
   private cTextField txtNama = new cTextField(25, 90, 360, false);
   private cErrorLabel errorNama = new cErrorLabel("nama tidak boleh kosong!", 25, 125, 360, false);
@@ -85,7 +85,7 @@ public class dashboardUserView extends cDashboardFrame {
   public dashboardUserView(Integer id) {
     super("Dashboard User");
     idUser = id;
-    roleText.setText("User | Nama User");
+    roleText.setText("Selamat Datang, User!");
     menuBeranda.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
@@ -143,7 +143,6 @@ public class dashboardUserView extends cDashboardFrame {
     menuBeranda.setForeground(cColor.WHITE);
     refreshContent();
     menuBeranda.setSidebarAktif();
-    menuTitle.setText("Beranda");
     content.add(labelSisaPulsaBeranda);
     content.add(valueSisaPulsaBeranda);
     setVisible(true);
@@ -156,7 +155,6 @@ public class dashboardUserView extends cDashboardFrame {
     menuBeliPaket.setForeground(cColor.WHITE);
     refreshContent();
     menuBeliPaket.setSidebarAktif();
-    menuTitle.setText("Sewa Kamar");
     String[] dataUserHeader = { "Nama", "Kuota", "Harga" };
     String[][] dataUser = {
         { "Row1 Col1", "Row1 Col2", "Row1 Col3" },
@@ -168,7 +166,7 @@ public class dashboardUserView extends cDashboardFrame {
     };
     dmPaket = new DefaultTableModel(dataUser, dataUserHeader);
     dataPaket = new cTable(dmPaket);
-    spDataPaket = new cScrollPane(dataPaket, 25, 70, 925, 190);
+    spDataPaket = new cScrollPane(dataPaket, 25, 70, 350, 190);
 
     content.add(labelPilihanBeliPaket);
     content.add(spDataPaket);
@@ -183,7 +181,6 @@ public class dashboardUserView extends cDashboardFrame {
     menuHistoryBeliPaket.setForeground(cColor.WHITE);
     refreshContent();
     menuHistoryBeliPaket.setSidebarAktif();
-    menuTitle.setText("Transaksi Paket Saya");
     String[] dataHistoryPaketHeader = { "Paket", "Kuota", "Harga", "Waktu", "Status" };
     String[][] dataHistoryPaket = {
         { "Row1 Col1", "Row1 Col2", "Row1 Col3", "Row1 Col4", "Row1 Col5" },
@@ -199,7 +196,7 @@ public class dashboardUserView extends cDashboardFrame {
     };
     dmHistoryPaket = new DefaultTableModel(dataHistoryPaket, dataHistoryPaketHeader);
     tblDataHistoryPaket = new cTable(dmHistoryPaket);
-    spDataHistoryPaket = new cScrollPane(tblDataHistoryPaket, 25, 65, 924, 310);
+    spDataHistoryPaket = new cScrollPane(tblDataHistoryPaket, 25, 65, 350, 310);
     content.add(labelHistoryPaket);
     content.add(spDataHistoryPaket);
     setVisible(true);
@@ -212,7 +209,6 @@ public class dashboardUserView extends cDashboardFrame {
     menuAkun.setForeground(cColor.WHITE);
     refreshContent();
     menuAkun.setSidebarAktif();
-    menuTitle.setText("Akun Saya");
     valueNoHp = new cFormLabel("08123xxx", 25, 174, 360, false);
     valueNoHp.setFont(com.partials.cFonts.RADIO_BUTTON_FONT);
     valueNoHp.setForeground(com.partials.cColor.RED);

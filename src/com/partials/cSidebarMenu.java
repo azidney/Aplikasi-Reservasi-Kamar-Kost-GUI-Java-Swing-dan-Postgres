@@ -35,7 +35,7 @@ public class cSidebarMenu extends JLabel {
     setText("     " + text);
     setBounds(0, y, 230, 50);
     setOpaque(true);
-    setFont(cFonts.SIDEBAR_FONT);
+    setFont(cFonts.MENU_JUDUL_FONT);
     setForeground(cColor.GRAY);
     setBackground(cColor.WHITE);
     setVerticalAlignment(JLabel.CENTER);

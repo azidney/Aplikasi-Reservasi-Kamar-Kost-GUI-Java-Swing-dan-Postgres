@@ -1,10 +1,11 @@
 package com.partials;
+
 import java.awt.Font;
 
 public class cFonts {
-  
+
   public static final Font TITLE_START_FONT = new Font("Poppins Semibold", Font.PLAIN, 26);
-  
+
   public static final Font LINK_EXIT_FONT = new Font("Poppins Bold", Font.PLAIN, 20);
 
   public static final Font FORM_LABEL_FONT = new Font("Poppins Medium", Font.PLAIN, 18);
@@ -33,5 +34,11 @@ public class cFonts {
 
   public static final Font HEADER_TABLE_FONT = new Font("Poppins Bold", Font.PLAIN, 18);
 
-
+  // user
+  public static final Font JUDUL_FONT = new Font("Poppins Bold", Font.PLAIN, 25);
+  public static final Font MENU_JUDUL_FONT = new Font("Poppins Semibold", Font.PLAIN, 15);
+  public static final Font USER_FONT = new Font("Poppins Semibold", Font.PLAIN, 18);
+  public static final Font USER_INFO_FONT = new Font("Poppins Medium", Font.PLAIN, 20);
+  public static final Font COPYUSER_FONT = new Font("Poppins Regular", Font.PLAIN, 12);
+  public static final Font BIG_FONT_USER = new Font("Poppins Light", Font.PLAIN, 44);
 }

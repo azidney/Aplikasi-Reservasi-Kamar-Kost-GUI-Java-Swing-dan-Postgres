@@ -1,10 +1,10 @@
 package com.partials;
+
 import javax.swing.JLabel;
 
-public class cLabelInfo extends JLabel{
+public class cLabelInfo extends JLabel {
 
-  public cLabelInfo(String text, int x, int y)
-  {
+  public cLabelInfo(String text, int x, int y) {
     super();
     setText(text);
     setBounds(x, y, 450, 40);
@@ -12,5 +12,5 @@ public class cLabelInfo extends JLabel{
     setFont(cFonts.LABEL_INFO_FONT);
     setForeground(cColor.BLACK);
   }
-  
+
 }
