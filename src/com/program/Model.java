@@ -8,9 +8,13 @@ import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 
 public class Model {
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/dbkos";
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "1";
+    private static final String hostname = "localhost";
+    private static final String port = "5432";
+    private static final String dbname = "dbkos";
+    private static final String username = "postgres";
+    private static final String password = "1";
+    private static final String url = "jdbc:postgresql://" + hostname + ":" + port + "/" + dbname + "?user=" + username
+            + "&password=" + password;
 
     private static Connection connect;
 
@@ -18,7 +22,7 @@ public class Model {
 
     private static void connection() {
         try {
-            connect = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            connect = DriverManager.getConnection(url);
         } catch (Exception e) {
             e.printStackTrace();
         }
