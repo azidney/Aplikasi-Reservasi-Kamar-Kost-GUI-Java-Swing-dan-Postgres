@@ -4,7 +4,7 @@ import com.views.*;
 
 public class Controller {
 
-  private static startView frameLoginAndRegister = new startView();
+  private static LoginRegister frameLoginAndRegister = new LoginRegister();
 
   public static void showLoginCustomer() {
     frameLoginAndRegister.setVisible(false);
@@ -25,12 +25,12 @@ public class Controller {
   }
 
   public static void showDashboardUser(Integer id) {
-    dashboardUserView dashboardCustomer = new dashboardUserView(id);
+    HalamanUser dashboardCustomer = new HalamanUser(id);
     dashboardCustomer.setVisible(true);
   }
 
   public static void showDashboardAdmin(boolean statusLogin) {
-    dashboardAdminView dashboardAdmin = new dashboardAdminView(statusLogin);
+    HalamanAdmin dashboardAdmin = new HalamanAdmin(statusLogin);
     dashboardAdmin.setVisible(true);
   }
 
