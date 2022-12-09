@@ -18,7 +18,7 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
   // sidebar menu
   private cSidebarMenu menuBeranda = new cSidebarMenu("Beranda", 70);
   private cSidebarMenu menuDataUser = new cSidebarMenu("Data User", 70 + 50);
-  private cSidebarMenu menuDataPaket = new cSidebarMenu("Data Kamar", 70 + 50 + 50);
+  private cSidebarMenu menuDataKamar = new cSidebarMenu("Data Kamar", 70 + 50 + 50);
   private cSidebarMenu menuLogout = new cSidebarMenu("Logout", 70 + 50 + 50 + 50);
 
   // beranda components
@@ -39,27 +39,27 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
   private cScrollPane spDataDataUser;
   private cBlueButton btnHapusDataUser = new cBlueButton("Hapus", 25, 446, 110);
 
-  // Data Paket components
-  private cLabelInfo labelDataPaket = new cLabelInfo("Data Kamar", 25, 20);
-  private cFormLabel labelCariDataPaket = new cFormLabel("Cari", 25, 75, 55, false);
-  private cTextField txtCariDataPaket = new cTextField(83, 70, 317, false);
-  private cBlueButton btnTambahDataPaket = new cBlueButton("Tambah Kamar", 418, 70, 162);
-  private cRadioButton rdSemuaDataPaket = new cRadioButton("Semua", "all", 25, 115, 97);
-  private cRadioButton rdAktifDataPaket = new cRadioButton("Aktif", "active", 132, 115, 72);
-  private cRadioButton rdTidakAktifDataPaket = new cRadioButton("Tidak Aktif", "nonactive", 214, 115, 112);
-  private ButtonGroup groupActionDataPaket = new ButtonGroup();
-  private DefaultTableModel dmDataPaket;
-  private cTable tblDataDataPaket;
-  private cScrollPane spDataDataPaket;
-  private cBlueButton btnUbahDataPaket = new cBlueButton("Ubah", 25, 410, 92);
+  // Data Kamar components
+  private cLabelInfo labelDataKamar = new cLabelInfo("Data Kamar", 25, 20);
+  private cFormLabel labelCariDatakamar = new cFormLabel("Cari", 25, 75, 55, false);
+  private cTextField txtCariDataKamar = new cTextField(83, 70, 317, false);
+  private cBlueButton btnTambahDataKamar = new cBlueButton("Tambah Kamar", 418, 70, 162);
+  private cRadioButton rdSemuaDataKamar = new cRadioButton("Semua", "all", 25, 115, 97);
+  private cRadioButton rdAktifDataKamar = new cRadioButton("Aktif", "active", 132, 115, 72);
+  private cRadioButton rdTidakAktifDataKamar = new cRadioButton("Tidak Aktif", "nonactive", 214, 115, 112);
+  private ButtonGroup groupActionDatakamar = new ButtonGroup();
+  private DefaultTableModel dmDataKamar;
+  private cTable tblDataDataKamar;
+  private cScrollPane spDataDataKamar;
+  private cBlueButton btnUbahDataKamar = new cBlueButton("Ubah", 25, 410, 92);
 
   // TambahDataPaket components
-  private cLabelInfo labelTambahDataPaket = new cLabelInfo("Isi form data kamar dengan lengkap", 25, 20);
-  private cFormLabel labelNamaPaketTambahDataPaket = new cFormLabel("Nama kamar", 25, 65, 550, false);
-  private cTextField txtNamaPaketTambahDataPaket = new cTextField(25, 90, 550, false);
-  private cErrorLabel errorNamaPaketTambahDataPaket = new cErrorLabel("nama kamar tidak boleh kosong!", 25, 125, 550,
+  private cLabelInfo labelTambahKamar = new cLabelInfo("Isi form data kamar dengan lengkap", 25, 20);
+  private cFormLabel namaTambahKamar = new cFormLabel("Nama kamar", 25, 65, 550, false);
+  private cTextField txtTambahKamar = new cTextField(25, 90, 550, false);
+  private cErrorLabel erorTambahKamar = new cErrorLabel("nama kamar tidak boleh kosong!", 25, 125, 550,
       false);
-  private cFormLabel labelKuotaPaketTambahDataPaket = new cFormLabel("Kuota kamar", 25, 150, 550, false);
+  private cFormLabel labelFormTambahKamar = new cFormLabel("Kuota kamar", 25, 150, 550, false);
   private cTextField txtKuotaPaketTambahDataPaket = new cTextField(25, 175, 550, false);
   private cErrorLabel errorKuotaPaketTambahDataPaket = new cErrorLabel("kuota kamar tidak boleh kosong!", 25, 210, 550,
       false);
@@ -102,9 +102,9 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
       menuDataUser.setBackground(cColor.WHITE);
       menuDataUser.setSidebarNonAktif();
 
-      menuDataPaket.setForeground(cColor.GRAY);
-      menuDataPaket.setBackground(cColor.WHITE);
-      menuDataPaket.setSidebarNonAktif();
+      menuDataKamar.setForeground(cColor.GRAY);
+      menuDataKamar.setBackground(cColor.WHITE);
+      menuDataKamar.setSidebarNonAktif();
 
       menuLogout.setSidebarNonAktif();
     } catch (Exception e) {
@@ -137,10 +137,10 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
         initsDataUser();
       }
     });
-    menuDataPaket.addMouseListener(new java.awt.event.MouseAdapter() {
+    menuDataKamar.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
-        initsDataPaket();
+        initsDataKamar();
       }
     });
 
@@ -154,7 +154,7 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     // add component default
     sidebar.add(menuBeranda);
     sidebar.add(menuDataUser);
-    sidebar.add(menuDataPaket);
+    sidebar.add(menuDataKamar);
     sidebar.add(menuLogout);
 
     initsBeranda();
@@ -205,14 +205,14 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     setVisible(true);
   }
 
-  private void initsDataPaket() {
+  private void initsDataKamar() {
     idSelected = null;
     resetSidebar();
-    menuDataPaket.setBackground(cColor.GREEN);
-    menuDataPaket.setForeground(cColor.WHITE);
+    menuDataKamar.setBackground(cColor.GREEN);
+    menuDataKamar.setForeground(cColor.WHITE);
     refreshContent();
-    menuDataPaket.setSidebarAktif();
-    menuTitle.setText("Data Paket");
+    menuDataKamar.setSidebarAktif();
+    menuTitle.setText("Data Kamar");
     String[] dataUserHeader = { "Header 1", "Header 2", "Header 3" };
     String[][] dataUser = {
         { "Row1 Col1", "Row1 Col2", "Row1 Col3" },
@@ -221,37 +221,37 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
         { "Row4 Col1", "Row4 Col2", "Row4 Col3" },
         { "Row5 Col1", "Row5 Col2", "Row5 Col3" }
     };
-    dmDataPaket = new DefaultTableModel(dataUser, dataUserHeader);
-    tblDataDataPaket = new cTable(dmDataPaket);
-    spDataDataPaket = new cScrollPane(tblDataDataPaket, 25, 145, 925, 250);
-    rdSemuaDataPaket.setSelected(true);
-    groupActionDataPaket.add(rdSemuaDataPaket);
-    groupActionDataPaket.add(rdAktifDataPaket);
-    groupActionDataPaket.add(rdTidakAktifDataPaket);
+    dmDataKamar = new DefaultTableModel(dataUser, dataUserHeader);
+    tblDataDataKamar = new cTable(dmDataKamar);
+    spDataDataKamar = new cScrollPane(tblDataDataKamar, 25, 145, 925, 250);
+    rdSemuaDataKamar.setSelected(true);
+    groupActionDatakamar.add(rdSemuaDataKamar);
+    groupActionDatakamar.add(rdAktifDataKamar);
+    groupActionDatakamar.add(rdTidakAktifDataKamar);
 
-    btnTambahDataPaket.addActionListener(new ActionListener() {
+    btnTambahDataKamar.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent ae) {
         initsTambahPaket();
       }
     });
 
-    btnUbahDataPaket.addActionListener(new ActionListener() {
+    btnUbahDataKamar.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent ae) {
         initsUbahPaket();
       }
     });
 
-    content.add(labelDataPaket);
-    content.add(labelCariDataPaket);
-    content.add(txtCariDataPaket);
-    content.add(btnTambahDataPaket);
-    content.add(rdSemuaDataPaket);
-    content.add(rdAktifDataPaket);
-    content.add(rdTidakAktifDataPaket);
-    content.add(spDataDataPaket);
-    content.add(btnUbahDataPaket);
+    content.add(labelDataKamar);
+    content.add(labelCariDatakamar);
+    content.add(txtCariDataKamar);
+    content.add(btnTambahDataKamar);
+    content.add(rdSemuaDataKamar);
+    content.add(rdAktifDataKamar);
+    content.add(rdTidakAktifDataKamar);
+    content.add(spDataDataKamar);
+    content.add(btnUbahDataKamar);
     setVisible(true);
   }
 
@@ -259,22 +259,22 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     // setVisible(false);
     idSelected = null;
     resetSidebar();
-    menuDataPaket.setBackground(cColor.GREEN);
-    menuDataPaket.setForeground(cColor.WHITE);
+    menuDataKamar.setBackground(cColor.GREEN);
+    menuDataKamar.setForeground(cColor.WHITE);
     refreshContent();
-    menuDataPaket.setSidebarAktif();
+    menuDataKamar.setSidebarAktif();
     menuTitle.setText("Tambah Data Kamar");
     btnBatalTambahDataPaket.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent ae) {
-        initsDataPaket();
+        initsDataKamar();
       }
     });
-    content.add(labelTambahDataPaket);
-    content.add(labelNamaPaketTambahDataPaket);
-    content.add(txtNamaPaketTambahDataPaket);
-    content.add(errorNamaPaketTambahDataPaket);
-    content.add(labelKuotaPaketTambahDataPaket);
+    content.add(labelTambahKamar);
+    content.add(namaTambahKamar);
+    content.add(txtTambahKamar);
+    content.add(erorTambahKamar);
+    content.add(labelFormTambahKamar);
     content.add(txtKuotaPaketTambahDataPaket);
     content.add(errorKuotaPaketTambahDataPaket);
     content.add(labelHargaPaketTambahDataPaket);
@@ -290,15 +290,15 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     // setVisible(false);
     idSelected = null;
     resetSidebar();
-    menuDataPaket.setBackground(cColor.GREEN);
-    menuDataPaket.setForeground(cColor.WHITE);
+    menuDataKamar.setBackground(cColor.GREEN);
+    menuDataKamar.setForeground(cColor.WHITE);
     refreshContent();
-    menuDataPaket.setSidebarAktif();
+    menuDataKamar.setSidebarAktif();
     menuTitle.setText("Ubah Data Kamar");
     btnBatalUbahDataPaket.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent ae) {
-        initsDataPaket();
+        initsDataKamar();
       }
     });
     content.add(labelUbahDataPaket);
