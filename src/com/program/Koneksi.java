@@ -408,4 +408,25 @@ public class Koneksi {
         return data;
     }
 
+    // hapus user
+    public static boolean hapusUser(int id_user) {
+        boolean data = false;
+        connection();
+        try {
+            statement = connect.createStatement();
+            String query = "DELETE FROM tbl_user WHERE id_user = " + id_user;
+
+            if (statement.executeUpdate(query) > 0) {
+                data = true;
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
+
 }

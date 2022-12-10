@@ -236,6 +236,24 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
       public void actionPerformed(java.awt.event.ActionEvent ae) {
         int selectedIndex = tblDataDataUser.getSelectedRow();
 
+        if (selectedIndex != -1) {
+          // kalo ada yang dipilih
+          int id_user = Integer.valueOf(tblDataDataUser.getValueAt(selectedIndex, 0).toString());
+
+          if (Koneksi.hapusUser(id_user)) {
+            JOptionPane.showMessageDialog(HalamanAdmin.this, "Data User berhasil dihapus!", "Berhasil",
+                JOptionPane.INFORMATION_MESSAGE);
+            initsDataUser();
+          } else {
+            JOptionPane.showMessageDialog(HalamanAdmin.this, "Data User gagal dihapus!", "Gagal",
+                JOptionPane.ERROR_MESSAGE);
+          }
+        } else {
+          // kalo gak ada yang diseleksi
+          JOptionPane.showMessageDialog(HalamanAdmin.this, "Pilih data terlebih dahulu!", "Peringatan",
+              JOptionPane.WARNING_MESSAGE);
+        }
+
       }
     });
     content.add(labelDataUser);
