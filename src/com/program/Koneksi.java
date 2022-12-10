@@ -321,4 +321,35 @@ public class Koneksi {
         return tm;
 
     }
+
+    // Method for insert data kamar
+    public static boolean tambahdataKamar(int nomor, String tipe, int harga,
+            String statusAktif) {
+        boolean data = false;
+
+        connection();
+
+        try {
+
+            // buat object statement yang ambil dari koneksi
+            statement = connect.createStatement();
+
+            // query select
+            String query = "INSERT into tbl_kamar VALUES ( DEFAULT , " + nomor + ",  '" + tipe + "', "
+                    + harga + ", '" + statusAktif + "')";
+
+            if (statement.executeUpdate(query) > 0) {
+                data = true;
+            }
+
+            // close statement dan connection
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
 }

@@ -65,29 +65,29 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
   private cFormLabel labelCariDatakamar = new cFormLabel("Cari", 25, 75, 55, false);
   private cTextField txtCariDataKamar = new cTextField(83, 70, 317, false);
   private cBlueButton btnTambahDataKamar = new cBlueButton("Tambah Kamar", 418, 70, 162);
-  private cRadioButton rdSemuaDataKamar = new cRadioButton("Semua", "all", 25, 115, 97);
-  private cRadioButton rdAktifDataKamar = new cRadioButton("Aktif", "active", 132, 115, 72);
-  private cRadioButton rdTidakAktifDataKamar = new cRadioButton("Tidak Aktif", "nonactive", 214, 115, 112);
+  private cRadioButton rdSemuaDataKamar = new cRadioButton("Semua", "all", 25, 122, 105);
+  private cRadioButton rdAktifDataKamar = new cRadioButton("Aktif", "active", 130, 122, 85);
+  private cRadioButton rdTidakAktifDataKamar = new cRadioButton("Tidak Aktif", "nonactive", 225, 122, 112);
   private cTable tblDataDataKamar;
   private cScrollPane spDataDataKamar;
   private cBlueButton btnUbahDataKamar = new cBlueButton("Ubah", 25, 410, 92);
 
   // TambahDataPaket components
   private cLabelInfo labelTambahKamar = new cLabelInfo("Isi form data kamar dengan lengkap", 25, 20);
-  private cFormLabel namaTambahKamar = new cFormLabel("Nama kamar", 25, 65, 550, false);
-  private cTextField txtTambahKamar = new cTextField(25, 90, 550, false);
-  private cErrorLabel erorTambahKamar = new cErrorLabel("nama kamar tidak boleh kosong!", 25, 125, 550,
+  private cFormLabel nomorTambahKamar = new cFormLabel("Nomor kamar", 25, 65, 550, false);
+  private cTextField txtTambahNomorKamar = new cTextField(25, 90, 550, false);
+  private cErrorLabel erorNomorTambahKamar = new cErrorLabel("Nomor kamar tidak boleh kosong!", 25, 125, 550,
       false);
-  private cFormLabel labelFormTambahKamar = new cFormLabel("Kuota kamar", 25, 150, 550, false);
-  private cTextField txtKuotaPaketTambahDataPaket = new cTextField(25, 175, 550, false);
-  private cErrorLabel errorKuotaPaketTambahDataPaket = new cErrorLabel("kuota kamar tidak boleh kosong!", 25, 210, 550,
+  private cFormLabel labelFormTambahKamar = new cFormLabel("Tipe kamar", 25, 150, 550, false);
+  private cTextField txtTambahNamaTiket = new cTextField(25, 175, 550, false);
+  private cErrorLabel errorKuotaPaketTambahDataPaket = new cErrorLabel("tipekamar tidak boleh kosong!", 25, 210, 550,
       false);
   private cFormLabel labelHargaPaketTambahDataPaket = new cFormLabel("Harga kamar", 25, 235, 550, false);
-  private cTextField txtHargaPaketTambahDataPaket = new cTextField(25, 260, 550, false);
+  private cTextField txtTambahNamaHarga = new cTextField(25, 260, 550, false);
   private cErrorLabel errorHargaPaketTambahDataPaket = new cErrorLabel("harga kamar tidak boleh kosong!", 25, 295, 550,
       false);
-  private cCheckbox chAktifTambahDataPaket = new cCheckbox("Aktifkan", "1", 25, 316, 100);
-  private cBlueButton btnTambahPaketTambahDataPaket = new cBlueButton("Tambah", 25, 348, 110);
+  private cCheckbox chAktifTambahDataPaket = new cCheckbox("Aktifkan", "Aktif", 25, 316, 100);
+  private cBlueButton btnTambahKamar = new cBlueButton("Tambah", 25, 348, 110);
   private cRedButton btnBatalTambahDataPaket = new cRedButton("Batal", 155, 348, 110);
 
   // UbahDataPaket components
@@ -253,7 +253,8 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     tblDataDataKamar.getColumnModel().getColumn(0).setMaxWidth(0);
     tblDataDataKamar.getColumnModel().getColumn(0).setWidth(0);
 
-    spDataDataKamar = new cScrollPane(tblDataDataKamar, 25, 145, 925, 250);
+    spDataDataKamar = new cScrollPane(tblDataDataKamar, 25, 155, 925, 250);
+
     // cari kamar
     txtCariDataKamar.addActionListener(new java.awt.event.ActionListener() {
       @Override
@@ -265,6 +266,8 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
         tblDataDataKamar.getColumnModel().getColumn(0).setWidth(0);
       }
     });
+
+    // bikin group kamar aktif / tidak aktif
     ButtonGroup groupButtonRadio = new ButtonGroup();
     groupButtonRadio.add(rdSemuaDataKamar);
     groupButtonRadio.add(rdAktifDataKamar);
@@ -346,24 +349,90 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     refreshContent();
     menuDataKamar.setSidebarAktif();
     menuTitle.setText("Tambah Data Kamar");
+
+    // set jadi null
+    txtTambahNomorKamar.setText(null);
+    txtTambahNamaTiket.setText(null);
+    txtTambahNamaHarga.setText(null);
+    chAktifTambahDataPaket.setSelected(false);
+
     btnBatalTambahDataPaket.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent ae) {
         initsDataKamar();
       }
     });
+
+    btnTambahKamar.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(java.awt.event.ActionEvent ae) {
+
+        // pengeckan kalau fieldnya kosong
+        if (txtTambahNomorKamar.getText().trim().isEmpty()
+            || txtTambahNamaTiket.getText().trim().isEmpty()
+            || txtTambahNamaHarga.getText().trim().isEmpty()) {
+
+          HalamanAdmin.this.setVisible(false);
+
+          // spesifik ke txt nama paket
+          if (txtTambahNomorKamar.getText().trim().isEmpty()) {
+            content.add(erorNomorTambahKamar);
+          } else {
+            content.remove(erorNomorTambahKamar);
+          }
+
+          // spesifik ke tipe
+          if (txtTambahNamaTiket.getText().trim().isEmpty())
+            content.add(errorKuotaPaketTambahDataPaket);
+          else
+            content.remove(errorKuotaPaketTambahDataPaket);
+
+          // spesifik ke Harga
+          if (txtTambahNamaHarga.getText().trim().isEmpty())
+            content.add(errorHargaPaketTambahDataPaket);
+          else
+            content.remove(errorHargaPaketTambahDataPaket);
+
+          HalamanAdmin.this.setVisible(true);
+
+        } else {
+          // lakukan insert data
+
+          int nomor = Integer.valueOf(txtTambahNomorKamar.getText());
+          String tipe = txtTambahNamaTiket.getText();
+          int harga = Integer.valueOf(txtTambahNamaHarga.getText());
+          String statusAktif = chAktifTambahDataPaket.isSelected() ? chAktifTambahDataPaket.getActionCommand()
+              : "Tidak Aktif";
+          // panggil method tambahDataPaket
+          if (Koneksi.tambahdataKamar(nomor, tipe, harga, statusAktif)) {
+            // kalau berhasil
+            JOptionPane.showMessageDialog(HalamanAdmin.this, "Berhasil tambah data kamar.", "Berhasil",
+                JOptionPane.INFORMATION_MESSAGE);
+
+            txtTambahNomorKamar.setText(null);
+            txtTambahNamaTiket.setText(null);
+            txtTambahNamaHarga.setText(null);
+            initsDataKamar();
+          } else {
+            // kalau tidak berhasil
+            JOptionPane.showMessageDialog(HalamanAdmin.this, "Gagal tambah data kamar.", "Gagal",
+                JOptionPane.ERROR_MESSAGE);
+          }
+
+        }
+
+      }
+    });
+
     content.add(labelTambahKamar);
-    content.add(namaTambahKamar);
-    content.add(txtTambahKamar);
-    content.add(erorTambahKamar);
+    content.add(nomorTambahKamar);
+    content.add(txtTambahNomorKamar);
     content.add(labelFormTambahKamar);
-    content.add(txtKuotaPaketTambahDataPaket);
-    content.add(errorKuotaPaketTambahDataPaket);
+    content.add(txtTambahNamaTiket);
     content.add(labelHargaPaketTambahDataPaket);
-    content.add(txtHargaPaketTambahDataPaket);
-    content.add(errorHargaPaketTambahDataPaket);
+    content.add(txtTambahNamaHarga);
     content.add(chAktifTambahDataPaket);
-    content.add(btnTambahPaketTambahDataPaket);
+    content.add(btnTambahKamar);
     content.add(btnBatalTambahDataPaket);
     setVisible(true);
   }
