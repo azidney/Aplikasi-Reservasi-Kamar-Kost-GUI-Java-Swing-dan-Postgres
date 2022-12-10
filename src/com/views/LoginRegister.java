@@ -17,7 +17,7 @@ public class LoginRegister extends TemplateLoginRegister {
   private cPasswordField txtPasswordLoginUser = new cPasswordField(65, 213, 320, true);
   private cErrorLabel erorPaswordLoginUser = new cErrorLabel("password harus di isi!", 0, 248, 450, true);
   private cBlueButton btnLoginLoginUser = new cBlueButton("Login", 65, 282, 320);
-  private cLinkStart toDaftarUserDaftarUser = new cLinkStart("belum punya akun user?", 362);
+  private cLinkStart toDaftarUserDaftarUser = new cLinkStart("Belum Punya Akun?", 362);
   private cLinkStart toLoginAdminLoginUser = new cLinkStart("Login Sebagai Admin", 382);
 
   // components of Register User
@@ -38,7 +38,7 @@ public class LoginRegister extends TemplateLoginRegister {
   private cErrorLabel erorEmailDaftarUser = new cErrorLabel("Email kosong!!", 0, 432, 450, true);
 
   private cBlueButton btnDaftarDaftarUser = new cBlueButton("Daftar", 65, 451, 320);
-  private cLinkStart toLoginUserLoginUser = new cLinkStart("sudah punya akun user?", 491);
+  private cLinkStart toLoginUserLoginUser = new cLinkStart("Sudah Punya Akun?", 491);
 
   // components of Login Admin
   private cFormLabel labelUsernameLoginAdmin = new cFormLabel("Username", 0, 84, 450, true);

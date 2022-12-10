@@ -1,6 +1,7 @@
 package com.views;
 
 import com.desain.*;
+import com.program.Koneksi;
 import com.template.TemplateHalamanUser;
 
 import javax.swing.ButtonGroup;
@@ -9,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class HalamanUser extends TemplateHalamanUser {
 
-  private Integer idUser = null;
+  private Integer id_user = null;
   private Integer idSelected = null;
 
   // sidebar menu
@@ -85,8 +86,8 @@ public class HalamanUser extends TemplateHalamanUser {
 
   public HalamanUser(Integer id) {
     super("Dashboard User");
-    this.idUser = id;
-    roleText.setText("Selamat Datang, User!");
+    this.id_user = id;
+    roleText.setText("Selamat Datang, " + Koneksi.getDetailUser(id_user)[3].toString());
     menuBeranda.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
@@ -121,7 +122,7 @@ public class HalamanUser extends TemplateHalamanUser {
             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
             null, options, options[0]);
         if (confirm == 0) {
-          idUser = null;
+          id_user = null;
           idSelected = null;
           com.program.Controller.showLoginCustomer();
         }

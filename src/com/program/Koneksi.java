@@ -541,10 +541,10 @@ public class Koneksi {
     }
 
     // user
-    public static Object[] getDetailMitra(int idMitra) {
+    public static Object[] getDetailUser(int id_user) {
         connection();
 
-        Object rowData[] = new Object[4];
+        Object rowData[] = new Object[6];
 
         try {
 
@@ -552,18 +552,19 @@ public class Koneksi {
             statement = connect.createStatement();
 
             // query select
-            String query = "SELECT * FROM vwallmitra WHERE idMitra = " + idMitra;
+            String query = "SELECT * FROM tbl_user WHERE id_user = " + id_user;
 
             // eksekusi query-nya
             ResultSet resultData = statement.executeQuery(query);
 
             // looping pengisian DefaultTableModel
             resultData.next();
-            rowData[0] = resultData.getInt("idMitra");
-            rowData[1] = resultData.getString("namaMitra");
-            rowData[2] = resultData.getString("emailMitra");
-            rowData[3] = resultData.getString("statusVerifikasi");
-
+            rowData[0] = resultData.getInt("id_user");
+            rowData[1] = resultData.getString("email");
+            rowData[2] = resultData.getString("password");
+            rowData[3] = resultData.getString("nama");
+            rowData[4] = resultData.getString("alamat");
+            rowData[5] = resultData.getString("no_hp");
             // close statement dan connection
             statement.close();
             connect.close();
@@ -575,4 +576,5 @@ public class Koneksi {
         return rowData;
 
     }
+
 }
