@@ -8,7 +8,7 @@ public class Controller {
 
   public static void showLoginCustomer() {
     frameLoginAndRegister.setVisible(false);
-    frameLoginAndRegister.initsLoginCustomer();
+    frameLoginAndRegister.initsLoginUser();
     frameLoginAndRegister.setVisible(true);
   }
 

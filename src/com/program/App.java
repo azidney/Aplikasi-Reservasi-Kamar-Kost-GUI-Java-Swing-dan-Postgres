@@ -12,7 +12,7 @@ public class App {
     // Model.connection(); // kalo di publi
 
     LoginRegister auth = new LoginRegister();
-    auth.initsLoginCustomer();
+    auth.initsLoginUser();
     auth.setVisible(true);
 
   }

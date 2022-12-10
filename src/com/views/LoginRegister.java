@@ -1,20 +1,23 @@
 package com.views;
 
+import javax.swing.JOptionPane;
+
 import com.desain.*;
 import com.program.Controller;
+import com.program.Koneksi;
 import com.template.TemplateLoginRegister;
 
 public class LoginRegister extends TemplateLoginRegister {
 
   // components of Login Customer
-  private cFormLabel labelNoHpLoginCustomer = new cFormLabel("Nomor Hp", 0, 84, 450, true);
-  private cTextField txtNoHpLoginCustomer = new cTextField(65, 114, 320, true);
-  private cErrorLabel errorNoHpLoginCustomer = new cErrorLabel("no. hp kosong!!", 0, 149, 450, true);
-  private cFormLabel labelPasswordLoginCustomer = new cFormLabel("Password", 0, 183, 450, true);
-  private cPasswordField txtPasswordLoginCustomer = new cPasswordField(65, 213, 320, true);
-  private cErrorLabel errorPasswordLoginCustomer = new cErrorLabel("password kosong!!", 0, 248, 450, true);
-  private cBlueButton btnLoginLoginCustomer = new cBlueButton("Login", 65, 282, 320);
-  private cLinkStart toDaftarCustomerLoginCustomer = new cLinkStart("belum punya akun customer?", 362);
+  private cFormLabel labelLoginEmailUser = new cFormLabel("Email", 0, 84, 450, true);
+  private cTextField txtLoginEmailUser = new cTextField(65, 114, 320, true);
+  private cErrorLabel erorEmailLoginUser = new cErrorLabel("Email harus di isi!!", 0, 149, 450, true);
+  private cFormLabel labelPasswordLoginUser = new cFormLabel("Password", 0, 183, 450, true);
+  private cPasswordField txtPasswordLoginUser = new cPasswordField(65, 213, 320, true);
+  private cErrorLabel erorPaswordLoginUser = new cErrorLabel("password harus di isi!", 0, 248, 450, true);
+  private cBlueButton btnLoginLoginUser = new cBlueButton("Login", 65, 282, 320);
+  private cLinkStart toDaftarUserDaftarUser = new cLinkStart("belum punya akun user?", 362);
   private cLinkStart toLoginAdminLoginCustomer = new cLinkStart("Login Sebagai Admin", 382);
 
   // components of Register Customer
@@ -39,12 +42,12 @@ public class LoginRegister extends TemplateLoginRegister {
   private cPasswordField txtPasswordLoginAdmin = new cPasswordField(65, 213, 320, true);
   private cErrorLabel errorPasswordLoginAdmin = new cErrorLabel("password kosong!!", 0, 248, 450, true);
   private cBlueButton btnLoginLoginAdmin = new cBlueButton("Login", 65, 282, 320);
-  private cLinkStart toLoginCustomerLoginAdmin = new cLinkStart("Login Sebagai Customer", 382);
+  private cLinkStart toLoginCustomerLoginAdmin = new cLinkStart("Login Sebagai User", 382);
 
   public LoginRegister() {
     super();
     // implement for link frame loginCustomer
-    toDaftarCustomerLoginCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+    toDaftarUserDaftarUser.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
         Controller.showDaftarCustomer();
@@ -81,41 +84,67 @@ public class LoginRegister extends TemplateLoginRegister {
 
   }
 
-  public void initsLoginCustomer() {
-    this.setTitle("Login Customer");
+  public void initsLoginUser() {
+    this.setTitle("Login User");
     cardStart.removeAll();
-    titleStart.setText("Login Customer");
+    titleStart.setText("Login User");
     cardStart.add(titleStart);
 
-    btnLoginLoginCustomer.addActionListener(new java.awt.event.ActionListener() {
+    btnLoginLoginUser.addActionListener(new java.awt.event.ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent ae) {
-        if (txtNoHpLoginCustomer.getText().equalsIgnoreCase("")
-            || String.valueOf(txtPasswordLoginCustomer.getPassword()).equalsIgnoreCase("")) {
-          Controller.showLoginCustomer();
-          if (txtNoHpLoginCustomer.getText().equalsIgnoreCase("")) {
-            cardStart.add(errorNoHpLoginCustomer);
+        String email = txtLoginEmailUser.getText();
+        String password = String.valueOf(txtPasswordLoginUser.getPassword());
+
+        // kalau salah satu datanya kosong
+        if (email.equalsIgnoreCase("") || email.isEmpty() || password.equalsIgnoreCase("") || password.isEmpty()) {
+
+          LoginRegister.this.setVisible(false);
+
+          // masuk validasi
+          if (email.equalsIgnoreCase("") || email.isEmpty()) {
+            cardStart.add(erorEmailLoginUser);
+          } else {
+            cardStart.remove(erorEmailLoginUser);
           }
-          if (String.valueOf(txtPasswordLoginCustomer.getPassword()).equalsIgnoreCase("")) {
-            cardStart.add(errorPasswordLoginCustomer);
+
+          if (password.equalsIgnoreCase("") || password.isEmpty())
+            cardStart.add(erorPaswordLoginUser);
+          else
+            cardStart.remove(erorPaswordLoginUser);
+
+          LoginRegister.this.setVisible(true);
+        } else {
+          // lolos validasi
+
+          if (Koneksi.loginUser(email, password)) {
+            // kalo berhasil login
+            Controller.showDashboardUser(Integer.valueOf(Koneksi.getDetailEmailUser(email)[0].toString()));
+            LoginRegister.this.setVisible(false);
+          } else {
+            // kalo gagal login
+            JOptionPane.showMessageDialog(LoginRegister.this, "Silahkan periksa email dan password!!", "Gagal Login",
+                JOptionPane.ERROR_MESSAGE);
           }
+
         }
+
       }
     });
 
-    cardStart.add(labelNoHpLoginCustomer);
-    cardStart.add(txtNoHpLoginCustomer);
-    cardStart.add(labelPasswordLoginCustomer);
-    cardStart.add(txtPasswordLoginCustomer);
-    cardStart.add(btnLoginLoginCustomer);
-    cardStart.add(toDaftarCustomerLoginCustomer);
+    cardStart.add(labelLoginEmailUser);
+    cardStart.add(txtLoginEmailUser);
+    cardStart.add(labelPasswordLoginUser);
+    cardStart.add(txtPasswordLoginUser);
+    cardStart.add(btnLoginLoginUser);
+    cardStart.add(toDaftarUserDaftarUser);
     cardStart.add(toLoginAdminLoginCustomer);
   }
 
   public void initsDaftarCustomer() {
-    this.setTitle("Daftar Customer");
+    this.setTitle("Daftar User");
     cardStart.removeAll();
-    titleStart.setText("Daftar Customer");
+    titleStart.setText("Daftar User");
     cardStart.add(titleStart);
 
     btnDaftarDaftarCustomer.addActionListener(new java.awt.event.ActionListener() {
@@ -157,16 +186,20 @@ public class LoginRegister extends TemplateLoginRegister {
     btnLoginLoginAdmin.addActionListener(new java.awt.event.ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent ae) {
-        if (txtUsernameLoginAdmin.getText().equalsIgnoreCase("")
-            || String.valueOf(txtPasswordLoginAdmin.getPassword()).equalsIgnoreCase("")) {
-          Controller.showLoginAdmin();
-          if (txtUsernameLoginAdmin.getText().equalsIgnoreCase("")) {
-            cardStart.add(errorUsernameLoginAdmin);
-          }
-          if (String.valueOf(txtPasswordLoginAdmin.getPassword()).equalsIgnoreCase("")) {
-            cardStart.add(errorPasswordLoginAdmin);
-          }
+
+        String username = txtUsernameLoginAdmin.getText();
+        String password = String.valueOf(txtPasswordLoginAdmin.getPassword());
+
+        if (username.equals("admin") && password.equals("admin123")) {
+          // loginnya Berhasil
+          Controller.showDashboardAdmin(true);
+          LoginRegister.this.setVisible(false);
+        } else {
+          // loginnya gagal
+          JOptionPane.showMessageDialog(LoginRegister.this, "Silahkan periksa username dan password!", "Gagal Login",
+              JOptionPane.ERROR_MESSAGE);
         }
+
       }
     });
 

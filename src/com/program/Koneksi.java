@@ -429,4 +429,73 @@ public class Koneksi {
         return data;
     }
 
+    // Login User
+    public static boolean loginUser(String email, String password) {
+        connection();
+        boolean available = false;
+
+        try {
+
+            // buat object statement yang ambil dari koneksi
+            statement = connect.createStatement();
+
+            // query select
+            String query = "SELECT COUNT(*) FROM tbl_user WHERE email = '" + email + "' AND password = '"
+                    + password + "'";
+
+            // eksekusi query-nya
+            ResultSet resultData = statement.executeQuery(query);
+
+            // looping pengisian DefaultTableModel
+            resultData.next();
+            if (resultData.getInt(1) == 1) {
+                available = true;
+            }
+
+            // close statement dan connection
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return available;
+    }
+
+    public static Object[] getDetailEmailUser(String email) {
+        connection();
+
+        Object rowData[] = new Object[4];
+
+        try {
+
+            // buat object statement yang ambil dari koneksi
+            statement = connect.createStatement();
+
+            // query select
+            String query = "SELECT * FROM tbl_user WHERE email = '" + email + "'";
+
+            // eksekusi query-nya
+            ResultSet resultData = statement.executeQuery(query);
+
+            // looping pengisian DefaultTableModel
+            resultData.next();
+            rowData[0] = resultData.getInt("id_user");
+            rowData[1] = resultData.getString("email");
+            rowData[2] = resultData.getString("password");
+            rowData[3] = resultData.getString("nama");
+            rowData[4] = resultData.getString("alamat");
+            rowData[5] = resultData.getString("no_hp");
+
+            // close statement dan connection
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return rowData;
+
+    }
 }
