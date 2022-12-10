@@ -85,7 +85,7 @@ public class HalamanUser extends TemplateHalamanUser {
 
   public HalamanUser(Integer id) {
     super("Dashboard User");
-    idUser = id;
+    this.idUser = id;
     roleText.setText("Selamat Datang, User!");
     menuBeranda.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override

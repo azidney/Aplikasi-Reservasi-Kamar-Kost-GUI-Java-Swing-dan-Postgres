@@ -429,7 +429,7 @@ public class Koneksi {
         return data;
     }
 
-    // Login User
+    // Login dan register User
     public static boolean loginUser(String email, String password) {
         connection();
         boolean available = false;
@@ -469,16 +469,9 @@ public class Koneksi {
 
         try {
 
-            // buat object statement yang ambil dari koneksi
             statement = connect.createStatement();
-
-            // query select
             String query = "SELECT * FROM tbl_user WHERE email = '" + email + "'";
-
-            // eksekusi query-nya
             ResultSet resultData = statement.executeQuery(query);
-
-            // looping pengisian DefaultTableModel
             resultData.next();
             rowData[0] = resultData.getInt("id_user");
             rowData[1] = resultData.getString("email");
@@ -486,6 +479,90 @@ public class Koneksi {
             rowData[3] = resultData.getString("nama");
             rowData[4] = resultData.getString("alamat");
             rowData[5] = resultData.getString("no_hp");
+
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return rowData;
+
+    }
+
+    public static boolean verifyEmailUser(String email) {
+        connection();
+        boolean available = false;
+
+        try {
+
+            statement = connect.createStatement();
+            String query = "SELECT COUNT(*) FROM tbl_user WHERE email = '" + email + "'";
+            ResultSet resultData = statement.executeQuery(query);
+            resultData.next();
+            if (resultData.getInt(1) == 0) {
+                available = true;
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return available;
+    }
+
+    public static boolean daftarUser(String email, String password, String nama, String alamat, String no_hp) {
+        boolean data = false;
+
+        connection();
+
+        try {
+
+            // buat object statement yang ambil dari koneksi
+            statement = connect.createStatement();
+
+            // query select
+            String query = "INSERT INTO tbl_user VALUES (DEFAULT, '" + email + "', '" + password + "', '" + nama
+                    + "', '" + alamat + "', '" + no_hp + "')";
+
+            if (statement.executeUpdate(query) > 0) {
+                data = true;
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
+
+    // user
+    public static Object[] getDetailMitra(int idMitra) {
+        connection();
+
+        Object rowData[] = new Object[4];
+
+        try {
+
+            // buat object statement yang ambil dari koneksi
+            statement = connect.createStatement();
+
+            // query select
+            String query = "SELECT * FROM vwallmitra WHERE idMitra = " + idMitra;
+
+            // eksekusi query-nya
+            ResultSet resultData = statement.executeQuery(query);
+
+            // looping pengisian DefaultTableModel
+            resultData.next();
+            rowData[0] = resultData.getInt("idMitra");
+            rowData[1] = resultData.getString("namaMitra");
+            rowData[2] = resultData.getString("emailMitra");
+            rowData[3] = resultData.getString("statusVerifikasi");
 
             // close statement dan connection
             statement.close();
