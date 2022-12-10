@@ -41,7 +41,7 @@ public class Koneksi {
             statement = connect.createStatement();
 
             // query select
-            String query = "SELECT * FROM tbl_user";
+            String query = "SELECT * FROM tbl_user ORDER BY id_user ASC";
 
             // eksekusi query-nya
             ResultSet resultData = statement.executeQuery(query);
@@ -73,7 +73,7 @@ public class Koneksi {
 
         try {
             statement = connect.createStatement();
-            String query = "SELECT * FROM tbl_kamar";
+            String query = "SELECT * FROM tbl_kamar ORDER BY id_kamar ASC";
             ResultSet resultData = statement.executeQuery(query);
             while (resultData.next()) {
                 Object[] rowData = { resultData.getInt("id_kamar"), resultData.getString("nomor"),
@@ -100,7 +100,7 @@ public class Koneksi {
 
         try {
             statement = connect.createStatement();
-            String query = "SELECT * FROM tbl_kamar WHERE status = 'Aktif'";
+            String query = "SELECT * FROM tbl_kamar WHERE status = 'Aktif' ORDER BY id_kamar ASC";
             ResultSet resultData = statement.executeQuery(query);
             while (resultData.next()) {
                 Object[] rowData = { resultData.getInt("id_kamar"), resultData.getString("nomor"),
@@ -127,7 +127,7 @@ public class Koneksi {
 
         try {
             statement = connect.createStatement();
-            String query = "SELECT * FROM tbl_kamar WHERE status = 'Tidak Aktif'";
+            String query = "SELECT * FROM tbl_kamar WHERE status = 'Tidak Aktif' ORDER BY id_kamar ASC";
             ResultSet resultData = statement.executeQuery(query);
             while (resultData.next()) {
                 Object[] rowData = { resultData.getInt("id_kamar"), resultData.getString("nomor"),
@@ -352,4 +352,60 @@ public class Koneksi {
 
         return data;
     }
+
+    // get detail kamar
+    public static Object[] getDetailKamar(int id_kamar) {
+        connection();
+
+        Object[] rowData = new Object[5];
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT * FROM tbl_kamar WHERE id_kamar = " + id_kamar;
+            ResultSet resultData = statement.executeQuery(query);
+
+            resultData.next();
+            rowData[0] = resultData.getInt("id_kamar");
+            rowData[1] = resultData.getString("nomor");
+            rowData[2] = resultData.getString("tipe");
+            rowData[3] = resultData.getInt("harga");
+            rowData[4] = resultData.getString("status");
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return rowData;
+
+    }
+
+    // ubah data kamar
+    public static boolean ubahDataKamar(int id_kamar, int nomor, String tipe, int harga,
+            String statusAktif) {
+        boolean data = false;
+
+        connection();
+
+        try {
+
+            statement = connect.createStatement();
+
+            String query = "UPDATE tbl_kamar SET nomor = " + nomor + ", tipe = '" + tipe
+                    + "', harga = " + harga + ", status = '" + statusAktif
+                    + "' WHERE id_kamar = " + id_kamar;
+
+            if (statement.executeUpdate(query) > 0) {
+                data = true;
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
+
 }
