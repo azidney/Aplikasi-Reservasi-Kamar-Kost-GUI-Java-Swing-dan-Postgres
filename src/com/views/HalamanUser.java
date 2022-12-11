@@ -23,18 +23,18 @@ public class HalamanUser extends TemplateHalamanUser {
   private cSidebarMenu menuLogout = new cSidebarMenu("Logout", 70 + 50 + 50 + 50 + 50);
 
   // components of beranda
-  private cLabelUser labelSisaPulsaBeranda = new cLabelUser("Total Kamar yang Anda Reservasi", 25, 20);
-  private cBigFontUser valueSisaPulsaBeranda = new cBigFontUser("2", 25, 60);
+  private cLabelUser labelJumlahReservasi = new cLabelUser("Total Kamar yang Anda Reservasi", 25, 20);
+  private cBigFontUser valueJumlahReservasi = new cBigFontUser("0", 25, 60);
 
   // beli paket components
-  private cLabelUser labelPilihanKamar = new cLabelUser("Silahkan Pilihan Kamar", 25, 20);
+  private cLabelUser labelPilihanKamar = new cLabelUser("Silahkan Pilihan Kost", 25, 20);
   private DefaultTableModel dmPaket;
   private cTable dataKamar;
   private cScrollPane spDataKamarAktif;
-  private cBlueButton btnReservasi = new cBlueButton("Sewa Kamar", 25, 290, 155);
+  private cBlueButton btnReservasi = new cBlueButton("Sewa Kost", 25, 290, 155);
 
   // history beli Paket components
-  private cLabelUser labelHistoryPaket = new cLabelUser("Data Transaksi Anda", 25, 20);
+  private cLabelUser labelHistoryPaket = new cLabelUser("Data Reservasi Anda", 25, 20);
   private DefaultTableModel dmHistoryPaket;
   private cTable tblDataHistoryPaket;
   private cScrollPane spDataHistoryPaket;
@@ -100,7 +100,7 @@ public class HalamanUser extends TemplateHalamanUser {
     menuBeranda.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
-        initsBeranda();
+        initsBeranda(Koneksi.getDetailUser(id_user)[0].toString());
       }
     });
 
@@ -133,7 +133,9 @@ public class HalamanUser extends TemplateHalamanUser {
         if (confirm == 0) {
           id_user = null;
           idSelected = null;
+          HalamanUser.this.setVisible(false);
           com.program.Controller.showLoginUser();
+
         }
       }
     });
@@ -144,18 +146,22 @@ public class HalamanUser extends TemplateHalamanUser {
     sidebar.add(menuAkun);
     sidebar.add(menuLogout);
 
-    initsBeranda();
+    initsBeranda(Koneksi.getDetailUser(id_user)[0].toString());
   }
 
-  private void initsBeranda() {
+  private void initsBeranda(String id) {
     idSelected = null;
+
+    this.id_user = Integer.valueOf(id);
     resetSidebar();
     menuBeranda.setBackground(cColor.GREEN);
     menuBeranda.setForeground(cColor.WHITE);
     refreshContent();
     menuBeranda.setSidebarAktif();
-    content.add(labelSisaPulsaBeranda);
-    content.add(valueSisaPulsaBeranda);
+
+    valueJumlahReservasi.setText(String.valueOf(Koneksi.getCountAllReservasiUser(id_user)));
+    content.add(labelJumlahReservasi);
+    content.add(valueJumlahReservasi);
     setVisible(true);
   }
 
@@ -171,12 +177,16 @@ public class HalamanUser extends TemplateHalamanUser {
     dataKamar.getColumnModel().getColumn(0).setMaxWidth(0);
     dataKamar.getColumnModel().getColumn(0).setWidth(0);
 
-    dataKamar.getColumnModel().getColumn(1).setMinWidth(70);
-    dataKamar.getColumnModel().getColumn(1).setMaxWidth(70);
-    dataKamar.getColumnModel().getColumn(1).setWidth(70);
-    dataKamar.getColumnModel().getColumn(3).setMinWidth(80);
-    dataKamar.getColumnModel().getColumn(3).setMaxWidth(80);
-    dataKamar.getColumnModel().getColumn(3).setWidth(80);
+    dataKamar.getColumnModel().getColumn(1).setMinWidth(55);
+    dataKamar.getColumnModel().getColumn(1).setMaxWidth(55);
+    dataKamar.getColumnModel().getColumn(1).setWidth(55);
+    dataKamar.getColumnModel().getColumn(3).setMinWidth(60);
+    dataKamar.getColumnModel().getColumn(3).setMaxWidth(60);
+    dataKamar.getColumnModel().getColumn(3).setWidth(60);
+
+    dataKamar.getColumnModel().getColumn(5).setMinWidth(60);
+    dataKamar.getColumnModel().getColumn(5).setMaxWidth(60);
+    dataKamar.getColumnModel().getColumn(5).setWidth(60);
 
     dataKamar.getColumnModel().getColumn(4).setMinWidth(0);
     dataKamar.getColumnModel().getColumn(4).setMaxWidth(0);
@@ -264,7 +274,7 @@ public class HalamanUser extends TemplateHalamanUser {
             JOptionPane.showMessageDialog(HalamanUser.this, "Berhasil ubah data user.", "Berhasil",
                 JOptionPane.INFORMATION_MESSAGE);
 
-            initsBeranda();
+            initsBeranda(Koneksi.getDetailUser(id_user)[0].toString());
           } else {
             // kalau tidak berhasil
             JOptionPane.showMessageDialog(HalamanUser.this, "Gagal ubah data user.", "Gagal",

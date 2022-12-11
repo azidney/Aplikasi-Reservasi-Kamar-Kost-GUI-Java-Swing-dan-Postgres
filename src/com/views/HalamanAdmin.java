@@ -40,7 +40,8 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
   private cSidebarMenu menuBeranda = new cSidebarMenu("Beranda", 70);
   private cSidebarMenu menuDataUser = new cSidebarMenu("Data User", 70 + 50);
   private cSidebarMenu menuDataKamar = new cSidebarMenu("Data Kamar", 70 + 50 + 50);
-  private cSidebarMenu menuLogout = new cSidebarMenu("Logout", 70 + 50 + 50 + 50);
+  private cSidebarMenu menuDataReservasi = new cSidebarMenu("Data Reservasi", 70 + 50 + 50 + 50);
+  private cSidebarMenu menuLogout = new cSidebarMenu("Logout", 70 + 50 + 50 + 50 + 50);
 
   // beranda components
   private cLabelInfo labelJmlDataMitraBeranda = new cLabelInfo("Jumlah Data User", 25, 20);
@@ -49,8 +50,8 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
   private cBigFont valueJmlKamarAktif = new cBigFont("0", 25, 190);
   private cLabelInfo labelJmlTransaksiPulsaBeranda = new cLabelInfo("Jumlah Data Kamar Tidak Aktif", 495, 20);
   private cBigFont valueJmlKamarTidakAktif = new cBigFont("0", 495, 60);
-  private cLabelInfo labelJmlCalonMitraBeranda = new cLabelInfo("Jumlah Data Transaksi", 495, 150);
-  private cBigFont valueJmlCalonMitraBeranda = new cBigFont("0", 495, 190);
+  private cLabelInfo labelJmlDataReservasi = new cLabelInfo("Jumlah Data Transaksi", 495, 150);
+  private cBigFont valueJmlDataReservasi = new cBigFont("0", 495, 190);
 
   // Data User components
   private cLabelInfo labelDataUser = new cLabelInfo("Berikut adalah data user", 25, 20);
@@ -59,6 +60,14 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
   private cTable tblDataDataUser;
   private cScrollPane spDataDataUser;
   private cBlueButton btnHapusDataUser = new cBlueButton("Hapus", 25, 446, 110);
+
+  // Data Reservasi components
+  private cLabelInfo labelDataReservasi = new cLabelInfo("Berikut adalah data reservasi", 25, 20);
+  private cFormLabel labelCariDataReservasi = new cFormLabel("Cari", 25, 75, 55, false);
+  private cTextField txtCariDataReservasi = new cTextField(83, 70, 350, false);
+  private cTable tblDataReservasi;
+  private cScrollPane spDataDataReservasi;
+  private cBlueButton btnHapusDataReservasi = new cBlueButton("Hapus", 25, 446, 110);
 
   // Data Kamar components
   private cLabelInfo labelDataKamar = new cLabelInfo("Berikut adalah data kamar", 25, 20);
@@ -125,6 +134,10 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
       menuDataKamar.setBackground(cColor.WHITE);
       menuDataKamar.setSidebarNonAktif();
 
+      menuDataReservasi.setForeground(cColor.GRAY);
+      menuDataReservasi.setBackground(cColor.WHITE);
+      menuDataReservasi.setSidebarNonAktif();
+
       menuLogout.setSidebarNonAktif();
     } catch (Exception e) {
       // TODO: handle exception
@@ -156,6 +169,13 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
         initsDataUser();
       }
     });
+
+    menuDataReservasi.addMouseListener(new java.awt.event.MouseAdapter() {
+      @Override
+      public void mouseClicked(java.awt.event.MouseEvent me) {
+        initsDataReservasi();
+      }
+    });
     menuDataKamar.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
@@ -174,6 +194,8 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     sidebar.add(menuBeranda);
     sidebar.add(menuDataUser);
     sidebar.add(menuDataKamar);
+
+    sidebar.add(menuDataReservasi);
     sidebar.add(menuLogout);
 
     initsBeranda();
@@ -191,6 +213,7 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     valueJumlahDataUser.setText(String.valueOf(Koneksi.getCountAllUser()));
     valueJmlKamarAktif.setText(String.valueOf(Koneksi.getCountAllKamarAktif()));
     valueJmlKamarTidakAktif.setText(String.valueOf(Koneksi.getCountAllKamarTidakAktif()));
+    valueJmlDataReservasi.setText(String.valueOf(Koneksi.getCountAllReservasi()));
 
     content.add(labelJmlDataMitraBeranda);
     content.add(valueJumlahDataUser);
@@ -198,8 +221,8 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     content.add(valueJmlKamarAktif);
     content.add(labelJmlTransaksiPulsaBeranda);
     content.add(valueJmlKamarTidakAktif);
-    content.add(labelJmlCalonMitraBeranda);
-    content.add(valueJmlCalonMitraBeranda);
+    content.add(labelJmlDataReservasi);
+    content.add(valueJmlDataReservasi);
     setVisible(true);
   }
 
@@ -322,6 +345,10 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
         tblDataDataKamar.getColumnModel().getColumn(0).setMinWidth(0);
         tblDataDataKamar.getColumnModel().getColumn(0).setMaxWidth(0);
         tblDataDataKamar.getColumnModel().getColumn(0).setWidth(0);
+
+        tblDataDataKamar.getColumnModel().getColumn(5).setMinWidth(0);
+        tblDataDataKamar.getColumnModel().getColumn(5).setMaxWidth(0);
+        tblDataDataKamar.getColumnModel().getColumn(5).setWidth(0);
 
       }
     });
@@ -570,6 +597,66 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     setVisible(true);
   }
 
+  private void initsDataReservasi() {
+    idSelected = null;
+    resetSidebar();
+    menuDataReservasi.setBackground(cColor.GREEN);
+    menuDataReservasi.setForeground(cColor.WHITE);
+    refreshContent();
+    menuDataReservasi.setSidebarAktif();
+    menuTitle.setText("Data Reservasi");
+    tblDataReservasi = new cTable(Koneksi.getAllReservasi());
+
+    tblDataReservasi.getColumnModel().getColumn(0).setMinWidth(0);
+    tblDataReservasi.getColumnModel().getColumn(0).setMaxWidth(0);
+    tblDataReservasi.getColumnModel().getColumn(0).setWidth(0);
+
+    spDataDataUser = new cScrollPane(tblDataReservasi, 25, 120, 725, 310); // width = 925
+
+    // cari user
+    txtCariDataReservasi.addActionListener(new java.awt.event.ActionListener() {
+      @Override
+      public void actionPerformed(java.awt.event.ActionEvent ae) {
+        String keyword = txtCariDataReservasi.getText();
+        tblDataReservasi.setModel(Koneksi.getSearchReservasi(keyword));
+        tblDataReservasi.getColumnModel().getColumn(0).setMinWidth(0);
+        tblDataReservasi.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblDataReservasi.getColumnModel().getColumn(0).setWidth(0);
+      }
+    });
+    btnHapusDataReservasi.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(java.awt.event.ActionEvent ae) {
+        int selectedIndex = tblDataReservasi.getSelectedRow();
+
+        if (selectedIndex != -1) {
+          // kalo ada yang dipilih
+          int id_reservasi = Integer.valueOf(tblDataReservasi.getValueAt(selectedIndex, 0).toString());
+
+          if (Koneksi.hapusReservasi(id_reservasi)) {
+            JOptionPane.showMessageDialog(HalamanAdmin.this, "Data Reservasi berhasil dihapus!", "Berhasil",
+                JOptionPane.INFORMATION_MESSAGE);
+            initsDataReservasi();
+          } else {
+            JOptionPane.showMessageDialog(HalamanAdmin.this, "Data Reservasi gagal dihapus!", "Gagal",
+                JOptionPane.ERROR_MESSAGE);
+          }
+        } else {
+          // kalo gak ada yang diseleksi
+          JOptionPane.showMessageDialog(HalamanAdmin.this, "Pilih data terlebih dahulu!", "Peringatan",
+              JOptionPane.WARNING_MESSAGE);
+        }
+
+      }
+    });
+    content.add(labelDataReservasi);
+    content.add(labelCariDataReservasi);
+    content.add(txtCariDataReservasi);
+    content.add(spDataDataUser);
+    content.add(btnHapusDataReservasi);
+    setVisible(true);
+  }
+
   private void initsLogout() {
     Object[] options = { "YA", "BATAL" };
     int confirm = JOptionPane.showOptionDialog(null, "Yakin ingin logout?", "Logout",
@@ -578,6 +665,7 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     if (confirm == 0) {
       this.statusLogin = false;
       this.idSelected = null;
+      HalamanAdmin.this.setVisible(false);
       com.program.Controller.showLoginAdmin();
     }
   }

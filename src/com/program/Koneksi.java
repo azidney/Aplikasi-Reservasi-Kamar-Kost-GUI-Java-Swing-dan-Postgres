@@ -95,7 +95,7 @@ public class Koneksi {
     public static DefaultTableModel getAllKamarAktif() {
         connection();
 
-        String[] dataHeader = { "id_kamar", "nomor", "tipe", "harga", "status" };
+        String[] dataHeader = { "id_kamar", "nomor", "tipe", "harga", "status", "Waktu" };
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
 
         try {
@@ -104,7 +104,8 @@ public class Koneksi {
             ResultSet resultData = statement.executeQuery(query);
             while (resultData.next()) {
                 Object[] rowData = { resultData.getInt("id_kamar"), resultData.getString("nomor"),
-                        resultData.getString("tipe"), resultData.getString("harga"), resultData.getString("status") };
+                        resultData.getString("tipe"), resultData.getString("harga"), resultData.getString("status"),
+                        "1 bulan" };
                 tm.addRow(rowData);
             }
             statement.close();
@@ -601,6 +602,123 @@ public class Koneksi {
         }
 
         return data;
+    }
+
+    // reservasi
+    public static DefaultTableModel getAllReservasi() {
+        connection();
+
+        String[] dataHeader = { "id_reservasi", "Nama User", "Nomor Kamar", "Tipe Kamar", "Harga", "Waktu" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT c.id_reservasi, a.nama, b.nomor, b.tipe, b.harga, c.waktu from tbl_user as a, tbl_kamar as b, tbl_reservasi as c  where c.id_user = a.id_user and c.id_kamar = b.id_kamar";
+
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_reservasi"), resultData.getString("nama"),
+                        resultData.getString("nomor"), resultData.getString("tipe"), resultData.getString("harga"),
+                        resultData.getString("waktu") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
+    }
+
+    public static boolean hapusReservasi(int id_reservasi) {
+        boolean data = false;
+        connection();
+        try {
+            statement = connect.createStatement();
+            String query = "DELETE FROM tbl_reservasi WHERE id_reservasi = " + id_reservasi;
+
+            if (statement.executeUpdate(query) > 0) {
+                data = true;
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
+
+    public static int getCountAllReservasi() {
+        connection();
+        int count = 0;
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT COUNT(*) FROM tbl_reservasi";
+            ResultSet resultData = statement.executeQuery(query);
+            resultData.next();
+            count = resultData.getInt(1);
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public static DefaultTableModel getSearchReservasi(String keyword) {
+        connection();
+
+        String[] dataHeader = { "id_reservasi", "Nama User", "Nomor Kamar", "Tipe Kamar", "Harga", "Waktu" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT c.id_reservasi, a.nama, b.nomor, b.tipe, b.harga, c.waktu from tbl_user as a, tbl_kamar as b, tbl_reservasi as c  where c.id_user = a.id_user and c.id_kamar = b.id_kamar and a.nama LIKE '%"
+                    + keyword
+                    + "%'";
+
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_reservasi"), resultData.getString("nama"),
+                        resultData.getString("nomor"), resultData.getString("tipe"), resultData.getString("harga"),
+                        resultData.getString("waktu") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
+    }
+
+    public static int getCountAllReservasiUser(int id_user) {
+        connection();
+        int count = 0;
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT COUNT(*) FROM tbl_reservasi WHERE id_user = " + id_user;
+            ResultSet resultData = statement.executeQuery(query);
+            resultData.next();
+            count = resultData.getInt(1);
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
 }

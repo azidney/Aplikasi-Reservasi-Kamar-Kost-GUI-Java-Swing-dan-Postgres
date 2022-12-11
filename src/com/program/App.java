@@ -9,7 +9,6 @@ public class App {
     // Controller.showDashboardAdmin(true);
     // Controller.showDashboardUser(1);
     // Controller.showLoginAdmin();
-    // Model.connection(); // kalo di publi
 
     LoginRegister auth = new LoginRegister();
     auth.initsLoginUser();

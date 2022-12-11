@@ -51,26 +51,32 @@ public class LoginRegister extends TemplateLoginRegister {
   private cLinkStart toLoginUserLoginAdmin = new cLinkStart("Login Sebagai User", 382);
 
   public LoginRegister() {
+
     super();
     // implement for link frame loginUser
     toDaftarUserDaftarUser.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
+
+        LoginRegister.this.setVisible(false);
         Controller.showDaftarUser();
       }
     });
     toLoginAdminLoginUser.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
+
+        LoginRegister.this.setVisible(false);
         Controller.showLoginAdmin();
       }
     });
 
     // implement for link frame daftarUser
-
     toLoginUserLoginUser.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
+
+        LoginRegister.this.setVisible(false);
         Controller.showLoginUser();
       }
     });
@@ -78,6 +84,8 @@ public class LoginRegister extends TemplateLoginRegister {
     toLoginUserLoginAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
+
+        LoginRegister.this.setVisible(false);
         Controller.showLoginUser();
       }
     });
@@ -240,6 +248,7 @@ public class LoginRegister extends TemplateLoginRegister {
   }
 
   public void initsLoginAdmin() {
+
     this.setTitle("Login Admin");
     cardStart.removeAll();
     titleStart.setText("Login Admin");
