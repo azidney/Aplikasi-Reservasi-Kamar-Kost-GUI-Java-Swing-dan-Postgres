@@ -6,15 +6,15 @@ public class Controller {
 
   private static LoginRegister frameLoginAndRegister = new LoginRegister();
 
-  public static void showLoginCustomer() {
+  public static void showLoginUser() {
     frameLoginAndRegister.setVisible(false);
     frameLoginAndRegister.initsLoginUser();
     frameLoginAndRegister.setVisible(true);
   }
 
-  public static void showDaftarCustomer() {
+  public static void showDaftarUser() {
     frameLoginAndRegister.setVisible(false);
-    frameLoginAndRegister.initsDaftarCustomer();
+    frameLoginAndRegister.initsDaftarUser();
     frameLoginAndRegister.setVisible(true);
   }
 

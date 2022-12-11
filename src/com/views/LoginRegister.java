@@ -48,15 +48,15 @@ public class LoginRegister extends TemplateLoginRegister {
   private cPasswordField txtPasswordLoginAdmin = new cPasswordField(65, 213, 320, true);
   private cErrorLabel errorPasswordLoginAdmin = new cErrorLabel("password kosong!!", 0, 248, 450, true);
   private cBlueButton btnLoginLoginAdmin = new cBlueButton("Login", 65, 282, 320);
-  private cLinkStart toLoginCustomerLoginAdmin = new cLinkStart("Login Sebagai User", 382);
+  private cLinkStart toLoginUserLoginAdmin = new cLinkStart("Login Sebagai User", 382);
 
   public LoginRegister() {
     super();
-    // implement for link frame loginCustomer
+    // implement for link frame loginUser
     toDaftarUserDaftarUser.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
-        Controller.showDaftarCustomer();
+        Controller.showDaftarUser();
       }
     });
     toLoginAdminLoginUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -66,19 +66,19 @@ public class LoginRegister extends TemplateLoginRegister {
       }
     });
 
-    // implement for link frame daftarCustomer
+    // implement for link frame daftarUser
 
     toLoginUserLoginUser.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
-        Controller.showLoginCustomer();
+        Controller.showLoginUser();
       }
     });
 
-    toLoginCustomerLoginAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+    toLoginUserLoginAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
-        Controller.showLoginCustomer();
+        Controller.showLoginUser();
       }
     });
 
@@ -145,7 +145,7 @@ public class LoginRegister extends TemplateLoginRegister {
     cardStart.add(toLoginAdminLoginUser);
   }
 
-  public void initsDaftarCustomer() {
+  public void initsDaftarUser() {
     this.setTitle("Daftar User");
     cardStart.removeAll();
     titleStart.setText("Daftar User");
@@ -203,7 +203,7 @@ public class LoginRegister extends TemplateLoginRegister {
               JOptionPane.showMessageDialog(LoginRegister.this, "Daftar Berhasil!!", "Berhasil Daftar",
                   JOptionPane.INFORMATION_MESSAGE);
 
-              Controller.showLoginCustomer();
+              Controller.showLoginUser();
 
             } else {
               // kalau gagal daftar
@@ -270,7 +270,7 @@ public class LoginRegister extends TemplateLoginRegister {
     cardStart.add(labelPasswordLoginAdmin);
     cardStart.add(txtPasswordLoginAdmin);
     cardStart.add(btnLoginLoginAdmin);
-    cardStart.add(toLoginCustomerLoginAdmin);
+    cardStart.add(toLoginUserLoginAdmin);
 
   }
 

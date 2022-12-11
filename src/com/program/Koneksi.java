@@ -577,4 +577,30 @@ public class Koneksi {
 
     }
 
+    // ubah data user
+    public static boolean ubahDataUser(int id_user, String email, String password, String nama,
+            String alamat, int no_hp) {
+        boolean data = false;
+        connection();
+        try {
+
+            statement = connect.createStatement();
+
+            String query = "UPDATE tbl_user SET email = '" + email + "', password = '" + password
+                    + "', nama = '" + nama + "', alamat = '" + alamat
+                    + "' , no_hp = " + no_hp + " WHERE id_user = " + id_user;
+
+            if (statement.executeUpdate(query) > 0) {
+                data = true;
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
+
 }
