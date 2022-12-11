@@ -633,6 +633,35 @@ public class Koneksi {
 
     }
 
+    public static DefaultTableModel getReservasiUser(int id_user) {
+        connection();
+
+        String[] dataHeader = { "id_reservasi", "Nama", "Nomor Kamar", "Tipe", "Harga", "Waktu" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT c.id_reservasi, a.nama, b.nomor, b.tipe, b.harga, c.waktu from tbl_user as a, tbl_kamar as b, tbl_reservasi as c  where c.id_user = a.id_user and c.id_kamar = b.id_kamar and c.id_user = "
+                    + id_user;
+
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_reservasi"), resultData.getString("nama"),
+                        resultData.getString("nomor"), resultData.getString("tipe"), resultData.getString("harga"),
+                        resultData.getString("waktu") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
+    }
+
     public static boolean hapusReservasi(int id_reservasi) {
         boolean data = false;
         connection();
@@ -719,6 +748,30 @@ public class Koneksi {
             e.printStackTrace();
         }
         return count;
+    }
+
+    public static boolean tambahReservasi(int id_user, int id_kamar, String waktu) {
+        boolean data = false;
+
+        connection();
+
+        try {
+
+            statement = connect.createStatement();
+            String query = "INSERT into tbl_reservasi VALUES ( DEFAULT , " + id_user + ",  " + id_kamar + ", '"
+                    + waktu + "')";
+
+            if (statement.executeUpdate(query) > 0) {
+                data = true;
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return data;
     }
 
 }

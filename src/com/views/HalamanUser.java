@@ -26,18 +26,18 @@ public class HalamanUser extends TemplateHalamanUser {
   private cLabelUser labelJumlahReservasi = new cLabelUser("Total Kamar yang Anda Reservasi", 25, 20);
   private cBigFontUser valueJumlahReservasi = new cBigFontUser("0", 25, 60);
 
-  // beli paket components
+  // sewa kost components
   private cLabelUser labelPilihanKamar = new cLabelUser("Silahkan Pilihan Kost", 25, 20);
   private DefaultTableModel dmPaket;
   private cTable dataKamar;
   private cScrollPane spDataKamarAktif;
   private cBlueButton btnReservasi = new cBlueButton("Sewa Kost", 25, 290, 155);
 
-  // history beli Paket components
+  // history reservasi
   private cLabelUser labelHistoryPaket = new cLabelUser("Data Reservasi Anda", 25, 20);
-  private DefaultTableModel dmHistoryPaket;
-  private cTable tblDataHistoryPaket;
-  private cScrollPane spDataHistoryPaket;
+  private cTable dataHistory;
+  private cScrollPane spDataHistory;
+  private cBlueButton btnHapusHistory = new cBlueButton("Check Out", 25, 406, 110);
 
   // akun user components
   private cLabelUser labelAkun = new cLabelUser("Data Akun Saya", 25, 20);
@@ -107,14 +107,14 @@ public class HalamanUser extends TemplateHalamanUser {
     menuReservasi.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
-        initsReservasi();
+        initsReservasi(Koneksi.getDetailUser(id_user)[0].toString());
       }
     });
 
     menuHistory.addMouseListener(new java.awt.event.MouseAdapter() {
       @Override
       public void mouseClicked(java.awt.event.MouseEvent me) {
-        initsHistoryBeliPaket();
+        initsHistoryReservasi(Koneksi.getDetailUser(id_user)[0].toString());
       }
     });
     menuAkun.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -165,8 +165,10 @@ public class HalamanUser extends TemplateHalamanUser {
     setVisible(true);
   }
 
-  private void initsReservasi() {
+  private void initsReservasi(String id) {
     idSelected = null;
+
+    this.id_user = Integer.valueOf(id);
     resetSidebar();
     menuReservasi.setBackground(cColor.GREEN);
     menuReservasi.setForeground(cColor.WHITE);
@@ -193,38 +195,83 @@ public class HalamanUser extends TemplateHalamanUser {
     dataKamar.getColumnModel().getColumn(4).setWidth(0);
 
     spDataKamarAktif = new cScrollPane(dataKamar, 25, 70, 350, 190);
+    btnReservasi.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(java.awt.event.ActionEvent ae) {
+        int selectedIndex = dataKamar.getSelectedRow();
 
+        if (selectedIndex != -1) {
+          // kalo ada yang dipilih
+          int id_kamar = Integer.valueOf(dataKamar.getValueAt(selectedIndex, 0).toString());
+
+          String waktu = dataKamar.getValueAt(selectedIndex, 5).toString();
+
+          if (Koneksi.tambahReservasi(id_user, id_kamar, waktu)) {
+            JOptionPane.showMessageDialog(HalamanUser.this, "Anda berhasil Reservasi!", "Berhasil",
+                JOptionPane.INFORMATION_MESSAGE);
+            initsReservasi(Koneksi.getDetailUser(id_user)[0].toString());
+          } else {
+            JOptionPane.showMessageDialog(HalamanUser.this, "Anda Gagal Reservasi!", "Gagal",
+                JOptionPane.ERROR_MESSAGE);
+          }
+        } else {
+          // kalo gak ada yang diseleksi
+          JOptionPane.showMessageDialog(HalamanUser.this, "Pilih data terlebih dahulu!", "Peringatan",
+              JOptionPane.WARNING_MESSAGE);
+        }
+
+      }
+    });
     content.add(labelPilihanKamar);
     content.add(spDataKamarAktif);
     content.add(btnReservasi);
     setVisible(true);
   }
 
-  private void initsHistoryBeliPaket() {
+  private void initsHistoryReservasi(String id) {
     idSelected = null;
+    this.id_user = Integer.valueOf(id);
     resetSidebar();
     menuHistory.setBackground(cColor.GREEN);
     menuHistory.setForeground(cColor.WHITE);
     refreshContent();
     menuHistory.setSidebarAktif();
-    String[] dataHistoryPaketHeader = { "Paket", "Kuota", "Harga", "Waktu", "Status" };
-    String[][] dataHistoryPaket = {
-        { "Row1 Col1", "Row1 Col2", "Row1 Col3", "Row1 Col4", "Row1 Col5" },
-        { "Hemat Mantap", "11GB", "76.000", "2021-08-19 15:21:20", "selesai" },
-        { "Row3 Col1", "Row3 Col2", "Row3 Col3", "Row3 Col4", "Row3 Col5" },
-        { "Row4 Col1", "Row4 Col2", "Row4 Col3", "Row4 Col4", "Row4 Col5" },
-        { "Row5 Col1", "Row5 Col2", "Row5 Col3", "Row5 Col4", "Row5 Col5" },
-        { "Row6 Col1", "Row6 Col2", "Row6 Col3", "Row6 Col4", "Row6 Col5" },
-        { "Row7 Col1", "Row7 Col2", "Row7 Col3", "Row7 Col4", "Row7 Col5" },
-        { "Row8 Col1", "Row8 Col2", "Row8 Col3", "Row8 Col4", "Row8 Col5" },
-        { "Row9 Col1", "Row9 Col2", "Row9 Col3", "Row9 Col4", "Row9 Col5" },
-        { "Row10 Col1", "Row10 Col2", "Row10 Col3", "Row10 Col4", "Row10 Col5" }
-    };
-    dmHistoryPaket = new DefaultTableModel(dataHistoryPaket, dataHistoryPaketHeader);
-    tblDataHistoryPaket = new cTable(dmHistoryPaket);
-    spDataHistoryPaket = new cScrollPane(tblDataHistoryPaket, 25, 65, 350, 310);
+
+    dataHistory = new cTable(Koneksi.getReservasiUser(id_user));
+    dataHistory.getColumnModel().getColumn(0).setMinWidth(0);
+    dataHistory.getColumnModel().getColumn(0).setMaxWidth(0);
+    dataHistory.getColumnModel().getColumn(0).setWidth(0);
+
+    spDataHistory = new cScrollPane(dataHistory, 25, 65, 350, 310);
+
+    btnHapusHistory.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(java.awt.event.ActionEvent ae) {
+        int selectedIndex = dataHistory.getSelectedRow();
+
+        if (selectedIndex != -1) {
+          // kalo ada yang dipilih
+          int id_reservasi = Integer.valueOf(dataHistory.getValueAt(selectedIndex, 0).toString());
+
+          if (Koneksi.hapusReservasi(id_reservasi)) {
+            JOptionPane.showMessageDialog(HalamanUser.this, "Data History Reservasi berhasil di Check Out!", "Berhasil",
+                JOptionPane.INFORMATION_MESSAGE);
+            initsHistoryReservasi(Koneksi.getDetailUser(id_user)[0].toString());
+          } else {
+            JOptionPane.showMessageDialog(HalamanUser.this, "Data History Reservasi gagal di Check Out!", "Gagal",
+                JOptionPane.ERROR_MESSAGE);
+          }
+        } else {
+          // kalo gak ada yang diseleksi
+          JOptionPane.showMessageDialog(HalamanUser.this, "Pilih data terlebih dahulu!", "Peringatan",
+              JOptionPane.WARNING_MESSAGE);
+        }
+
+      }
+    });
     content.add(labelHistoryPaket);
-    content.add(spDataHistoryPaket);
+    content.add(spDataHistory);
+    content.add(btnHapusHistory);
     setVisible(true);
   }
 
