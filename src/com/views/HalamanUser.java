@@ -297,15 +297,13 @@ public class HalamanUser extends TemplateHalamanUser {
     btnUbahAkun.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent ae) {
-
         // pengeckan kalau fieldnya kosong
         if (txtNama.getText().trim().isEmpty()
             || txtAlamat.getText().trim().isEmpty()
             || txtEmail.getText().trim().isEmpty()
             || password.trim().isEmpty()
             || txtNoHp.getText().trim().isEmpty()) {
-
-          JOptionPane.showMessageDialog(HalamanUser.this, "Tolong isi data, jangan sampai kosong!", "Gagal Login",
+          JOptionPane.showMessageDialog(HalamanUser.this, "Tolong isi data, jangan sampai kosong!", "Gagal Ubah",
               JOptionPane.ERROR_MESSAGE);
 
         } else {

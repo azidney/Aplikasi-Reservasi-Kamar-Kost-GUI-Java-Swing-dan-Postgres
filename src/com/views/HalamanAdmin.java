@@ -101,13 +101,13 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
 
   // Ubah Data Kamar components
   private cLabelInfo labelUbahDataKamar = new cLabelInfo("Isi form data kamar dengan lengkap", 25, 20);
-  private cFormLabel labelNomorUbahDataKamar = new cFormLabel("Nama kamar", 25, 65, 550, false);
+  private cFormLabel labelNomorUbahDataKamar = new cFormLabel("Nomor kamar", 25, 65, 550, false);
   private cTextField txtUbahNomorKamar = new cTextField(25, 90, 550, false);
-  private cErrorLabel erorUbahNomorKamar = new cErrorLabel("nama kamar tidak boleh kosong!", 25, 125, 550,
+  private cErrorLabel erorUbahNomorKamar = new cErrorLabel("Nomor kamar tidak boleh kosong!", 25, 125, 550,
       false);
-  private cFormLabel labelTipeUbahKamar = new cFormLabel("Kuota kamar", 25, 150, 550, false);
+  private cFormLabel labelTipeUbahKamar = new cFormLabel("Tipe kamar", 25, 150, 550, false);
   private cTextField txtUbahTipeKamar = new cTextField(25, 175, 550, false);
-  private cErrorLabel erorUbahTipeKamar = new cErrorLabel("kuota kamar tidak boleh kosong!", 25, 210, 550,
+  private cErrorLabel erorUbahTipeKamar = new cErrorLabel("Tipe kamar tidak boleh kosong!", 25, 210, 550,
       false);
   private cFormLabel labelHargaUbahTipeKamar = new cFormLabel("Harga kamar", 25, 235, 550, false);
   private cTextField txtUbahHargaKamar = new cTextField(25, 260, 550, false);
@@ -236,9 +236,9 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     menuTitle.setText("Data User");
     tblDataDataUser = new cTable(Koneksi.getAllUser());
 
-    tblDataDataUser.getColumnModel().getColumn(0).setMinWidth(100);
-    tblDataDataUser.getColumnModel().getColumn(0).setMaxWidth(100);
-    tblDataDataUser.getColumnModel().getColumn(0).setWidth(100);
+    tblDataDataUser.getColumnModel().getColumn(0).setMinWidth(0);
+    tblDataDataUser.getColumnModel().getColumn(0).setMaxWidth(0);
+    tblDataDataUser.getColumnModel().getColumn(0).setWidth(0);
 
     spDataDataUser = new cScrollPane(tblDataDataUser, 25, 120, 725, 310); // width = 925
 
@@ -248,9 +248,9 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
       public void actionPerformed(java.awt.event.ActionEvent ae) {
         String keyword = txtCariDataUser.getText();
         tblDataDataUser.setModel(Koneksi.getSearchUser(keyword));
-        tblDataDataUser.getColumnModel().getColumn(0).setMinWidth(100);
-        tblDataDataUser.getColumnModel().getColumn(0).setMaxWidth(100);
-        tblDataDataUser.getColumnModel().getColumn(0).setWidth(100);
+        tblDataDataUser.getColumnModel().getColumn(0).setMinWidth(0);
+        tblDataDataUser.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblDataDataUser.getColumnModel().getColumn(0).setWidth(0);
       }
     });
 

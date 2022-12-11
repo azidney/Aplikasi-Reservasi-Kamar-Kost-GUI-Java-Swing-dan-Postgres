@@ -24,7 +24,7 @@ public abstract class TemplateLoginRegister extends JFrame {
     setUndecorated(true);
     setDefaultCloseOperation(TemplateLoginRegister.EXIT_ON_CLOSE);
 
-    bg.setBackground(cColor.BLUE);
+    bg.setBackground(cColor.GREEN);
     bg.setBounds(0, 0, 1280, 720);
     bg.setLayout(null);
 
