@@ -89,15 +89,15 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
       false);
   private cFormLabel labelFormTambahKamar = new cFormLabel("Tipe kamar", 25, 150, 550, false);
   private cTextField txtTambahNamaTipe = new cTextField(25, 175, 550, false);
-  private cErrorLabel errorKuotaPaketTambahDataPaket = new cErrorLabel("tipekamar tidak boleh kosong!", 25, 210, 550,
+  private cErrorLabel erorTipeKamarTambahKamar = new cErrorLabel("tipe kamar tidak boleh kosong!", 25, 210, 550,
       false);
-  private cFormLabel labelHargaPaketTambahDataPaket = new cFormLabel("Harga kamar", 25, 235, 550, false);
+  private cFormLabel labelHargakamarTambahKamar = new cFormLabel("Harga kamar", 25, 235, 550, false);
   private cTextField txtTambahNamaHarga = new cTextField(25, 260, 550, false);
-  private cErrorLabel errorHargaPaketTambahDataPaket = new cErrorLabel("harga kamar tidak boleh kosong!", 25, 295, 550,
+  private cErrorLabel erorHargaKamarTambahKamar = new cErrorLabel("harga kamar tidak boleh kosong!", 25, 295, 550,
       false);
-  private cCheckbox chAktifTambahDataPaket = new cCheckbox("Aktifkan", "Aktif", 25, 316, 100);
+  private cCheckbox chAktifTambahKamar = new cCheckbox("Aktifkan", "Aktif", 25, 316, 100);
   private cBlueButton btnTambahKamar = new cBlueButton("Tambah", 25, 348, 110);
-  private cRedButton btnBatalTambahDataPaket = new cRedButton("Batal", 155, 348, 110);
+  private cRedButton btnBatalTambahDataKamar = new cRedButton("Batal", 155, 348, 110);
 
   // Ubah Data Kamar components
   private cLabelInfo labelUbahDataKamar = new cLabelInfo("Isi form data kamar dengan lengkap", 25, 20);
@@ -415,9 +415,9 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     txtTambahNomorKamar.setText(null);
     txtTambahNamaTipe.setText(null);
     txtTambahNamaHarga.setText(null);
-    chAktifTambahDataPaket.setSelected(false);
+    chAktifTambahKamar.setSelected(false);
 
-    btnBatalTambahDataPaket.addActionListener(new ActionListener() {
+    btnBatalTambahDataKamar.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent ae) {
         initsDataKamar();
@@ -444,15 +444,15 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
 
           // spesifik ke tipe
           if (txtTambahNamaTipe.getText().trim().isEmpty())
-            content.add(errorKuotaPaketTambahDataPaket);
+            content.add(erorTipeKamarTambahKamar);
           else
-            content.remove(errorKuotaPaketTambahDataPaket);
+            content.remove(erorTipeKamarTambahKamar);
 
           // spesifik ke Harga
           if (txtTambahNamaHarga.getText().trim().isEmpty())
-            content.add(errorHargaPaketTambahDataPaket);
+            content.add(erorHargaKamarTambahKamar);
           else
-            content.remove(errorHargaPaketTambahDataPaket);
+            content.remove(erorHargaKamarTambahKamar);
 
           HalamanAdmin.this.setVisible(true);
 
@@ -462,7 +462,7 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
           int nomor = Integer.valueOf(txtTambahNomorKamar.getText());
           String tipe = txtTambahNamaTipe.getText();
           int harga = Integer.valueOf(txtTambahNamaHarga.getText());
-          String statusAktif = chAktifTambahDataPaket.isSelected() ? chAktifTambahDataPaket.getActionCommand()
+          String statusAktif = chAktifTambahKamar.isSelected() ? chAktifTambahKamar.getActionCommand()
               : "Tidak Aktif";
           // panggil method tambahDataPaket
           if (Koneksi.tambahdataKamar(nomor, tipe, harga, statusAktif)) {
@@ -490,11 +490,11 @@ public class HalamanAdmin extends TemplateHalamanAdmin {
     content.add(txtTambahNomorKamar);
     content.add(labelFormTambahKamar);
     content.add(txtTambahNamaTipe);
-    content.add(labelHargaPaketTambahDataPaket);
+    content.add(labelHargakamarTambahKamar);
     content.add(txtTambahNamaHarga);
-    content.add(chAktifTambahDataPaket);
+    content.add(chAktifTambahKamar);
     content.add(btnTambahKamar);
-    content.add(btnBatalTambahDataPaket);
+    content.add(btnBatalTambahDataKamar);
     setVisible(true);
   }
 

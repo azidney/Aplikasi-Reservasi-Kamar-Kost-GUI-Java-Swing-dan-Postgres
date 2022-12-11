@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 
 public class Koneksi {
+
+    /* KONEKSI KE DATABASE POSTGRES */
     private static final String hostname = "localhost";
     private static final String port = "5432";
     private static final String dbname = "dbkos";
@@ -28,10 +30,13 @@ public class Koneksi {
         }
     }
 
-    // function ngambil semua data kamar dan user
+    /* HALAMAN ADMIN */
+
+    // 1. FUNCTION / METHOD BUAT NGAMBIL SEMUA DATA USER
     public static DefaultTableModel getAllUser() {
         connection();
 
+        // bikin header tabel
         String[] dataHeader = { "id", "Nama User", "Email User", "Alamat User", "No Handphone" };
         DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
 
@@ -65,6 +70,7 @@ public class Koneksi {
 
     }
 
+    // 2. FUNCTION BUAT NGAMBIL SEMUA DATA KAMAR
     public static DefaultTableModel getAllKamar() {
         connection();
 
@@ -91,7 +97,7 @@ public class Koneksi {
 
     }
 
-    // function ngambil semua data kamar yang aktif
+    // 3. FUNCTION BUAT NGAMBIL SEMUA DATA KAMAR YANG AKTIF
     public static DefaultTableModel getAllKamarAktif() {
         connection();
 
@@ -119,7 +125,7 @@ public class Koneksi {
 
     }
 
-    // function ngambil semua data kamar yang tidak aktif
+    // 4. FUNCTION BUAT NGAMBIL SEMUA DATA KAMAR YANG TIDAK AKTIF
     public static DefaultTableModel getAllKamarTidakAktif() {
         connection();
 
@@ -146,7 +152,7 @@ public class Koneksi {
 
     }
 
-    // function hitung semua user dan kamar
+    // 5. FUNCTION HITUNG SEMUA DATA USER DAN KAMAR
     public static int getCountAllUser() {
         connection();
         int count = 0;
@@ -214,7 +220,7 @@ public class Koneksi {
         return count;
     }
 
-    // buat nyari data user dan kamar
+    // 6. FUNCTION BUAT NYARI DATA USER DAN KAMAR
     public static DefaultTableModel getSearchUser(String keyword) {
         connection();
 
@@ -323,7 +329,7 @@ public class Koneksi {
 
     }
 
-    // Method for insert data kamar
+    // 7. FUNCTION / METHOD BUAT NAMBAH DATA KAMAR
     public static boolean tambahdataKamar(int nomor, String tipe, int harga,
             String statusAktif) {
         boolean data = false;
@@ -354,7 +360,7 @@ public class Koneksi {
         return data;
     }
 
-    // get detail kamar
+    // 8. FUNCTION BUAT NGAMBIL DATA KAMAR SESUAI ID
     public static Object[] getDetailKamar(int id_kamar) {
         connection();
 
@@ -381,7 +387,7 @@ public class Koneksi {
 
     }
 
-    // ubah data kamar
+    // 9. MENGUBAH DATA KAMAR
     public static boolean ubahDataKamar(int id_kamar, int nomor, String tipe, int harga,
             String statusAktif) {
         boolean data = false;
@@ -409,7 +415,7 @@ public class Koneksi {
         return data;
     }
 
-    // hapus user
+    // 10. MENGHAPUS USER
     public static boolean hapusUser(int id_user) {
         boolean data = false;
         connection();
@@ -430,7 +436,89 @@ public class Koneksi {
         return data;
     }
 
-    // Login dan register User
+    // 11. NGAMBIL SEMUA DATA RESERVASI
+    public static DefaultTableModel getAllReservasi() {
+        connection();
+
+        String[] dataHeader = { "id_reservasi", "Nama User", "Nomor Kamar", "Tipe Kamar", "Harga", "Waktu" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT c.id_reservasi, a.nama, b.nomor, b.tipe, b.harga, c.waktu from tbl_user as a, tbl_kamar as b, tbl_reservasi as c  where c.id_user = a.id_user and c.id_kamar = b.id_kamar";
+
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_reservasi"), resultData.getString("nama"),
+                        resultData.getString("nomor"), resultData.getString("tipe"), resultData.getString("harga"),
+                        resultData.getString("waktu") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
+    }
+
+    // 12. TOTAL RESERVASI
+    public static int getCountAllReservasi() {
+        connection();
+        int count = 0;
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT COUNT(*) FROM tbl_reservasi";
+            ResultSet resultData = statement.executeQuery(query);
+            resultData.next();
+            count = resultData.getInt(1);
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    // 13. CARI RESERVASI
+    public static DefaultTableModel getSearchReservasi(String keyword) {
+        connection();
+
+        String[] dataHeader = { "id_reservasi", "Nama User", "Nomor Kamar", "Tipe Kamar", "Harga", "Waktu" };
+        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
+
+        try {
+            statement = connect.createStatement();
+            String query = "SELECT c.id_reservasi, a.nama, b.nomor, b.tipe, b.harga, c.waktu from tbl_user as a, tbl_kamar as b, tbl_reservasi as c  where c.id_user = a.id_user and c.id_kamar = b.id_kamar and a.nama LIKE '%"
+                    + keyword
+                    + "%'";
+
+            ResultSet resultData = statement.executeQuery(query);
+            while (resultData.next()) {
+                Object[] rowData = { resultData.getInt("id_reservasi"), resultData.getString("nama"),
+                        resultData.getString("nomor"), resultData.getString("tipe"), resultData.getString("harga"),
+                        resultData.getString("waktu") };
+                tm.addRow(rowData);
+            }
+            statement.close();
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tm;
+
+    }
+
+    /* HALAMAN LOGIN DAN REGISTER */
+
+    // 1. BUAT LOGIN USER
     public static boolean loginUser(String email, String password) {
         connection();
         boolean available = false;
@@ -463,6 +551,7 @@ public class Koneksi {
         return available;
     }
 
+    // 2. NGAMBIL DATA USER SESUAI EMAIL
     public static Object[] getDetailEmailUser(String email) {
         connection();
 
@@ -492,6 +581,7 @@ public class Koneksi {
 
     }
 
+    // 3. BUAT NGECEK APAKAH ADA USER DI DATABASE ATAU TIDAK SESUAI EMAIL
     public static boolean verifyEmailUser(String email) {
         connection();
         boolean available = false;
@@ -514,6 +604,7 @@ public class Koneksi {
         return available;
     }
 
+    // 4. REGISTER USER
     public static boolean daftarUser(String email, String password, String nama, String alamat, String no_hp) {
         boolean data = false;
 
@@ -541,7 +632,9 @@ public class Koneksi {
         return data;
     }
 
-    // user
+    /* HALAMAN USER */
+
+    // 1. NGAMBIL DATA USER SESUAI ID
     public static Object[] getDetailUser(int id_user) {
         connection();
 
@@ -549,16 +642,12 @@ public class Koneksi {
 
         try {
 
-            // buat object statement yang ambil dari koneksi
             statement = connect.createStatement();
 
-            // query select
             String query = "SELECT * FROM tbl_user WHERE id_user = " + id_user;
 
-            // eksekusi query-nya
             ResultSet resultData = statement.executeQuery(query);
 
-            // looping pengisian DefaultTableModel
             resultData.next();
             rowData[0] = resultData.getInt("id_user");
             rowData[1] = resultData.getString("email");
@@ -566,7 +655,6 @@ public class Koneksi {
             rowData[3] = resultData.getString("nama");
             rowData[4] = resultData.getString("alamat");
             rowData[5] = resultData.getString("no_hp");
-            // close statement dan connection
             statement.close();
             connect.close();
 
@@ -578,7 +666,7 @@ public class Koneksi {
 
     }
 
-    // ubah data user
+    // 2. MENGUBAH DATA USER
     public static boolean ubahDataUser(int id_user, String email, String password, String nama,
             String alamat, int no_hp) {
         boolean data = false;
@@ -604,35 +692,7 @@ public class Koneksi {
         return data;
     }
 
-    // reservasi
-    public static DefaultTableModel getAllReservasi() {
-        connection();
-
-        String[] dataHeader = { "id_reservasi", "Nama User", "Nomor Kamar", "Tipe Kamar", "Harga", "Waktu" };
-        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-
-        try {
-            statement = connect.createStatement();
-            String query = "SELECT c.id_reservasi, a.nama, b.nomor, b.tipe, b.harga, c.waktu from tbl_user as a, tbl_kamar as b, tbl_reservasi as c  where c.id_user = a.id_user and c.id_kamar = b.id_kamar";
-
-            ResultSet resultData = statement.executeQuery(query);
-            while (resultData.next()) {
-                Object[] rowData = { resultData.getInt("id_reservasi"), resultData.getString("nama"),
-                        resultData.getString("nomor"), resultData.getString("tipe"), resultData.getString("harga"),
-                        resultData.getString("waktu") };
-                tm.addRow(rowData);
-            }
-            statement.close();
-            connect.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return tm;
-
-    }
-
+    // 3. NGAMBIL DATA RESERVASI SESUAI ID USER
     public static DefaultTableModel getReservasiUser(int id_user) {
         connection();
 
@@ -662,6 +722,7 @@ public class Koneksi {
 
     }
 
+    // 4. USER MELAKUKAN CHECK OUT JADINYA TERHAPUS
     public static boolean hapusReservasi(int id_reservasi) {
         boolean data = false;
         connection();
@@ -682,55 +743,7 @@ public class Koneksi {
         return data;
     }
 
-    public static int getCountAllReservasi() {
-        connection();
-        int count = 0;
-
-        try {
-            statement = connect.createStatement();
-            String query = "SELECT COUNT(*) FROM tbl_reservasi";
-            ResultSet resultData = statement.executeQuery(query);
-            resultData.next();
-            count = resultData.getInt(1);
-            statement.close();
-            connect.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return count;
-    }
-
-    public static DefaultTableModel getSearchReservasi(String keyword) {
-        connection();
-
-        String[] dataHeader = { "id_reservasi", "Nama User", "Nomor Kamar", "Tipe Kamar", "Harga", "Waktu" };
-        DefaultTableModel tm = new DefaultTableModel(null, dataHeader);
-
-        try {
-            statement = connect.createStatement();
-            String query = "SELECT c.id_reservasi, a.nama, b.nomor, b.tipe, b.harga, c.waktu from tbl_user as a, tbl_kamar as b, tbl_reservasi as c  where c.id_user = a.id_user and c.id_kamar = b.id_kamar and a.nama LIKE '%"
-                    + keyword
-                    + "%'";
-
-            ResultSet resultData = statement.executeQuery(query);
-            while (resultData.next()) {
-                Object[] rowData = { resultData.getInt("id_reservasi"), resultData.getString("nama"),
-                        resultData.getString("nomor"), resultData.getString("tipe"), resultData.getString("harga"),
-                        resultData.getString("waktu") };
-                tm.addRow(rowData);
-            }
-            statement.close();
-            connect.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return tm;
-
-    }
-
+    // 5. JUMLAHIN SEMUA DATA RESERVASI SESUAI USER
     public static int getCountAllReservasiUser(int id_user) {
         connection();
         int count = 0;
@@ -750,6 +763,7 @@ public class Koneksi {
         return count;
     }
 
+    // 5. FUNCTION MELAKUKAN RESERVASI
     public static boolean tambahReservasi(int id_user, int id_kamar, String waktu) {
         boolean data = false;
 
