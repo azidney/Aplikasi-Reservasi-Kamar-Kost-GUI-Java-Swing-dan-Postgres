@@ -97,7 +97,6 @@ public class LoginRegister extends TemplateLoginRegister {
     cardStart.removeAll();
     titleStart.setText("Login User");
     cardStart.add(titleStart);
-
     txtLoginEmailUser.setText(null);
     txtPasswordLoginUser.setText(null);
 

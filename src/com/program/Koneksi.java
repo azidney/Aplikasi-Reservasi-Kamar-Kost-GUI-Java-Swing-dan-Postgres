@@ -17,9 +17,7 @@ public class Koneksi {
     private static final String password = "1";
     private static final String url = "jdbc:postgresql://" + hostname + ":" + port + "/" + dbname + "?user=" + username
             + "&password=" + password;
-
     private static Connection connect;
-
     private static Statement statement;
 
     private static void connection() {

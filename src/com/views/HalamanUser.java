@@ -43,19 +43,14 @@ public class HalamanUser extends TemplateHalamanUser {
   private cLabelUser labelAkun = new cLabelUser("Data Akun Saya", 25, 20);
   private cFormLabel labelNama = new cFormLabel("Nama", 25, 65, 360, false);
   private cTextField txtNama = new cTextField(25, 90, 360, false);
-
   private cFormLabel labelNoHp = new cFormLabel("No Hp", 25, 130, 360, false);
   private cTextField txtNoHp = new cTextField(25, 155, 360, false);
-
   private cFormLabel labelEmail = new cFormLabel("Email", 25, 190, 360, false);
   private cTextField txtEmail = new cTextField(25, 215, 360, false);
-
   private cFormLabel labelPassword = new cFormLabel("Password", 25, 255, 360, false);
   private cPasswordField txtPassword = new cPasswordField(25, 280, 360, false);
-
   private cFormLabel labelAlamat = new cFormLabel("Alamat", 25, 320, 360, false);
   private cTextField txtAlamat = new cTextField(25, 345, 360, false);
-
   private cBlueButton btnUbahAkun = new cBlueButton("Ubah Data Akun", 25, 400, 155);
 
   // method resetSidebar
